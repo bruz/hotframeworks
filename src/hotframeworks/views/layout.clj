@@ -1,5 +1,15 @@
 (ns hotframeworks.views.layout
-  (:require [hiccup.page :refer [html5 include-css]]))
+  (:require [hiccup.page :refer [html5 include-css]]
+            [hotframeworks.models.db :refer [all-languages-by-name]]))
+
+(defn language-menu []
+  (let [languages (all-languages-by-name)]
+    (into [] (concat
+               [:ul.dropdown-menu {:aria-labelledby "languages"}
+                 (map (fn [language]
+                      (let [{:keys [name url_identifier]} language]
+                        [:li [:a {:href (str "/languages/" url_identifier)} name]]))
+                 languages)]))))
 
 (defn common [& content]
   (html5
@@ -35,16 +45,7 @@
           {:href "#", :data-toggle "dropdown"}
           "Languages "
           [:span.caret]]
-         [:ul.dropdown-menu
-          {:aria-labelledby "languages"}
-          [:li
-           [:a
-            {:href "/languages/clojure", :tabindex "-1"}
-            "Clojure"]]
-          [:li
-           [:a
-            {:href "/languages/ruby", :tabindex "-1"}
-            "Ruby"]]]]
+         (language-menu)]
         [:li [:a {:href "/faq"} "FAQ"]]]]]]
     [:div {:class "container"} content]
     [:script {:src "//code.jquery.com/jquery.js"}]

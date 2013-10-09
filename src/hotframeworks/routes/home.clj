@@ -3,7 +3,16 @@
             [hotframeworks.views.layout :as layout]))
 
 (defn home []
-  (layout/common [:h1 "sup"]))
+  (layout/common
+   [:div.row
+    [:div#about.col-md-12
+     [:h1 "Find your new favorite web framework"
+      [:br]
+      [:small "We measure web framework popularity so you can find interesting frameworks to check out"]]]]
+   [:div.row
+    [:div.col-md-7
+     [:h1 "sup"]]
+    [:div.col-md-5 "yo"]]))
 
 (defroutes home-routes
   (GET "/" [] (home)))

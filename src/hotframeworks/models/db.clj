@@ -24,3 +24,7 @@
 
 (defentity statistic-sets
   (has-many statistics {:fk :statistic_set_id}))
+
+(defn all-languages-by-name []
+  (select languages
+          (order :name :ASC)))
