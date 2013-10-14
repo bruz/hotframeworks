@@ -1,6 +1,6 @@
 (ns hotframeworks.models.db
   (:require [clojure.java.jdbc :as sql]
-            [korma.db :refer [defdb transaction]]
+            [korma.db :refer [defdb]]
             [korma.core :refer :all]))
 
 (defdb db
@@ -23,8 +23,31 @@
   (belongs-to statistic-sets {:fk :statistic_set_id}))
 
 (defentity statistic-sets
+  (table :statistic_sets)
   (has-many statistics {:fk :statistic_set_id}))
+
+(defn all-frameworks []
+  (select frameworks))
 
 (defn all-languages-by-name []
   (select languages
           (order :name :ASC)))
+
+(defn last-statistic-set []
+  (first
+   (select statistic-sets
+           (order :date :DESC)
+           (limit 1))))
+
+(defn add-statistic-set! [date]
+  (insert statistic-sets
+          (values {:date date})))
+
+(defn statistics-for-set [statistic-set]
+  (select statistics
+          (where {:statistic_set_id (:id statistic-set)})))
+
+(defn add-statistic! [attributes]
+  (insert statistics
+          (values attributes)))
+
