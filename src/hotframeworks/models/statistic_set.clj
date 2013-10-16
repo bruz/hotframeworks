@@ -62,11 +62,12 @@
 (defn pull []
   (let [frameworks (db/all-frameworks)]
     (into {}
-      (map (fn [type]
-             (delta-set type
-               (score-stats
-                 (stats frameworks type))))
-        statistic-types))))
+          (map (fn [type]
+                 (->> type
+                      (stats frameworks)
+                      score-stats
+                      (delta-set type)))
+               statistic-types))))
 
 (defn save! [data]
   (let [set (db/add-statistic-set! (:date data))
