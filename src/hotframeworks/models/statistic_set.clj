@@ -32,7 +32,7 @@
         range (- max-value min-value)]
     (int (* (/ offset range) 100))))
 
-(defn score-stats [stats]
+(defn score-stats [type stats]
   (let [stat-values (log-values stats)
         non-nil (remove nil? stat-values)
         min-value (apply min non-nil)
@@ -41,7 +41,7 @@
            (if-let [value (:value stat)]
              (assoc stat :score (score-value value min-value max-value))
              nil))
-      stats)))
+         stats)))
 
 (defn last-set []
   (let [set (db/last-statistic-set)]
@@ -59,15 +59,44 @@
                    (assoc new-stat :delta (- new-score last-score)))) new-stats)}
     {type new-stats}))
 
-(defn pull []
+(defn get-scored-stats []
   (let [frameworks (db/all-frameworks)]
     (into {}
           (map (fn [type]
-                 (->> type
-                      (stats frameworks)
-                      score-stats
-                      (delta-set type)))
+                 {type (->> type
+                            (stats frameworks)
+                            (score-stats type))})
                statistic-types))))
+
+(defn framework-scores [framework stats-by-type]
+  (map (fn [[type stats]]
+         (:score (first
+                  (filter (fn [stat]
+                            (= (:framework_id stat) (:id framework)))
+                          stats))))
+       stats-by-type))
+
+(defn average-score [framework stats-by-type]
+  (let [scores (framework-scores framework stats-by-type)]
+    (/ (reduce + scores) (count scores))))
+
+(defn combined-scores [stats-by-type]
+  (let [frameworks (db/all-frameworks)]
+    (map (fn [framework]
+           (let [score (average-score framework stats-by-type)]
+             {:framework_id (:id framework)
+              :score score
+              :value score}))
+         frameworks)))
+
+(defn with-combined-scores [stats-by-type]
+  (assoc stats-by-type :combined (combined-scores stats-by-type)))
+
+(defn pull []
+  (into {}
+        (map (fn [[type stats]]
+               (delta-set type stats))
+             (with-combined-scores (get-scored-stats)))))
 
 (defn save! [data]
   (let [set (db/add-statistic-set! (:date data))
