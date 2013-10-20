@@ -98,7 +98,7 @@
                (delta-set type stats))
              (with-combined-scores (get-scored-stats)))))
 
-(defn save! [data]
+(defn save-statistics! [data]
   (let [set (db/add-statistic-set! (:date data))
         id (set :id)]
     (doseq [[type stats] (:stats data)]
@@ -107,6 +107,19 @@
           (db/add-statistic!
             (assoc stat :statistic_set_id id :type (name type))))))
     id))
+
+(defn update-frameworks! [stats]
+      (doseq [stat stats]
+        (when (:score stat)
+          (db/update-framework!
+            {:id (:framework_id stat)
+             :latest_score (:score stat)
+             :latest_delta (:delta stat)}))))
+
+(defn save! [data]
+  (do
+    (update-frameworks! (:combined (:stats data))))
+    (save-statistics! data))
 
 (defn today []
   (new java.sql.Date (.getTime (new java.util.Date))))

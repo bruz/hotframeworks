@@ -98,10 +98,17 @@
                            :stackoverflow [{:framework_id 1 :value 90 :score 28 :delta 28}
                                            {:framework_id 2 :value 50 :score 0 :delta -71}
                                            {:framework_id 3 :value 400 :score 100 :delta 0}
-                                           {:framework_id nil :value nil :score nil :delta nil}]}})
+                                           {:framework_id nil :value nil :score nil :delta nil}]
+                           :combined [{:framework_id 1 :score 28 :delta 28}
+                                      {:framework_id 2 :score 0 :delta -71}
+                                      {:framework_id 3 :score 100 :delta 0}
+                                      {:framework_id nil :score nil :delta nil}]}})
 
 (fact "about saving stats"
       (statistic-set/save! pulled-stats) => 1
+      (provided (db/update-framework! {:id 1 :latest_score 28 :latest_delta 28}) => 1)
+      (provided (db/update-framework! {:id 2 :latest_score 0 :latest_delta -71}) => 1)
+      (provided (db/update-framework! {:id 3 :latest_score 100 :latest_delta 0}) => 1)
       (provided (db/add-statistic-set! today) => {:id 1})
       (provided (db/add-statistic! {:statistic_set_id 1
                                     :framework_id 1

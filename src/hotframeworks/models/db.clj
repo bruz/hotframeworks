@@ -29,6 +29,18 @@
 (defn all-frameworks []
   (select frameworks))
 
+(defn most-popular-frameworks [max]
+  (select frameworks
+          (order :latest_score :DESC)
+          (limit max)))
+
+(defn update-framework! [map]
+  (let [{:keys [id score delta]} map]
+    (update frameworks
+            (set-fields {:latest_score score
+                         :latest_delta delta})
+            (where {:id id}))))
+
 (defn all-languages-by-name []
   (select languages
           (order :name :ASC)))
