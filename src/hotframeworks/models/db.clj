@@ -35,10 +35,10 @@
           (limit max)))
 
 (defn update-framework! [map]
-  (let [{:keys [id score delta]} map]
+  (let [{:keys [id latest-score latest-delta]} map]
     (update frameworks
-            (set-fields {:latest_score score
-                         :latest_delta delta})
+            (set-fields {:latest_score (int latest_score)
+                         :latest_delta latest_delta})
             (where {:id id}))))
 
 (defn all-languages-by-name []
@@ -59,7 +59,11 @@
   (select statistics
           (where {:statistic_set_id (:id statistic-set)})))
 
-(defn add-statistic! [attributes]
-  (insert statistics
-          (values attributes)))
-
+(defn add-statistic! [map]
+  (let [{:keys [type statistic_set_id framework_id score value]} map]
+    (insert statistics
+            (values {:type type
+                     :statistic_set_id statistic_set_id
+                     :framework_id framework_id
+                     :score (int score)
+                     :value (int value)}))))

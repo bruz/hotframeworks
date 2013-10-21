@@ -77,8 +77,12 @@
        stats-by-type))
 
 (defn average-score [framework stats-by-type]
-  (let [scores (framework-scores framework stats-by-type)]
-    (/ (reduce + scores) (count scores))))
+  (let [scores (remove nil? (framework-scores framework stats-by-type))
+        sum (reduce + scores)
+        number (count scores)]
+    (if (= 0 number)
+      0
+      (/ sum number))))
 
 (defn combined-scores [stats-by-type]
   (let [frameworks (db/all-frameworks)]

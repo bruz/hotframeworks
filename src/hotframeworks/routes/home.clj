@@ -14,8 +14,8 @@
     (map (fn [framework]
            [:tr
             [:td (:name framework)]
-            [:td (:score framework)]
-            [:td (:delta framework)]])
+            [:td (:latest_score framework)]
+            [:td (:latest_delta framework)]])
          frameworks)]])
 
 (defn home []
