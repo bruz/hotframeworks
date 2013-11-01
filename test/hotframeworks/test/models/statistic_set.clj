@@ -106,9 +106,9 @@
 
 (fact "about saving stats"
       (statistic-set/save! pulled-stats) => 1
-      (provided (db/update-framework! {:id 1 :latest_score 28 :latest_delta 28}) => 1)
-      (provided (db/update-framework! {:id 2 :latest_score 0 :latest_delta -71}) => 1)
-      (provided (db/update-framework! {:id 3 :latest_score 100 :latest_delta 0}) => 1)
+      (provided (db/update-framework! {:id 1 :latest-score 28 :latest-delta 28}) => 1)
+      (provided (db/update-framework! {:id 2 :latest-score 0 :latest-delta -71}) => 1)
+      (provided (db/update-framework! {:id 3 :latest-score 100 :latest-delta 0}) => 1)
       (provided (db/add-statistic-set! today) => {:id 1})
       (provided (db/add-statistic! {:statistic_set_id 1
                                     :framework_id 1

@@ -37,33 +37,46 @@
 (defn update-framework! [map]
   (let [{:keys [id latest-score latest-delta]} map]
     (update frameworks
-            (set-fields {:latest_score (int latest_score)
-                         :latest_delta latest_delta})
+            (set-fields {:latest_score latest-score
+                         :latest_delta latest-delta})
             (where {:id id}))))
 
 (defn all-languages-by-name []
   (select languages
           (order :name :ASC)))
 
+(defn latest-statistic-sets [number]
+  (select statistic-sets
+          (order :date :DESC)
+          (limit number)))
+
 (defn last-statistic-set []
   (first
-   (select statistic-sets
-           (order :date :DESC)
-           (limit 1))))
+   (latest-statistic-sets 1)))
 
 (defn add-statistic-set! [date]
   (insert statistic-sets
           (values {:date date})))
 
-(defn statistics-for-set [statistic-set]
+(defn statistics-for-sets [set-ids]
   (select statistics
-          (where {:statistic_set_id (:id statistic-set)})))
+          (where {:statistic_set_id [in set-ids]})))
+
+(defn statistics-for-set [statistic-set]
+  (statistics-for-sets [(:id statistic-set)]))
+
+(defn combined-statistics-for-sets [set-ids]
+  (select statistics
+          (where {:statistic_set_id [in set-ids]
+                  :type "combined"})))
+
 
 (defn add-statistic! [map]
-  (let [{:keys [type statistic_set_id framework_id score value]} map]
+  (let [{:keys [type statistic_set_id framework_id score value delta]} map]
     (insert statistics
             (values {:type type
                      :statistic_set_id statistic_set_id
                      :framework_id framework_id
                      :score (int score)
-                     :value (int value)}))))
+                     :value (int value)
+                     :delta (if (nil? delta) nil (int delta))}))))

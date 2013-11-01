@@ -46,17 +46,23 @@
 (defn last-set []
   (let [set (db/last-statistic-set)]
     (if set
-      (group-by :type (db/statistics-for-set set))
+      (group-by #(keyword (:type %)) (db/statistics-for-set set))
       nil)))
 
+(defn delta-score [new last]
+  (if (not-any? nil? [new last])
+                     (int (- new last))
+                     nil))
+
 (defn delta-set [type new-stats]
-  (if-let [last-stats (get (last-set) (name type))]
+  (if-let [last-stats (get (last-set) type)]
     {type (map (fn [new-stat]
                  (let [id (:framework_id new-stat)
                        last-stat (first (filter #(= id (:framework_id %)) last-stats))
                        new-score (:score new-stat)
                        last-score (:score last-stat)]
-                   (assoc new-stat :delta (- new-score last-score)))) new-stats)}
+                   (assoc new-stat :delta (delta-score new-score last-score))))
+               new-stats)}
     {type new-stats}))
 
 (defn get-scored-stats []
@@ -82,7 +88,7 @@
         number (count scores)]
     (if (= 0 number)
       0
-      (/ sum number))))
+      (int (/ sum number)))))
 
 (defn combined-scores [stats-by-type]
   (let [frameworks (db/all-frameworks)]
@@ -94,13 +100,21 @@
          frameworks)))
 
 (defn with-combined-scores [stats-by-type]
-  (assoc stats-by-type :combined (combined-scores stats-by-type)))
+  (into {} (assoc stats-by-type :combined (combined-scores stats-by-type))))
 
 (defn pull []
   (into {}
         (map (fn [[type stats]]
                (delta-set type stats))
              (with-combined-scores (get-scored-stats)))))
+
+(defn update-frameworks! [stats]
+      (doseq [stat stats]
+        (when (:score stat)
+          (db/update-framework!
+            {:id (:framework_id stat)
+             :latest-score (:score stat)
+             :latest-delta (:delta stat)}))))
 
 (defn save-statistics! [data]
   (let [set (db/add-statistic-set! (:date data))
@@ -111,14 +125,6 @@
           (db/add-statistic!
             (assoc stat :statistic_set_id id :type (name type))))))
     id))
-
-(defn update-frameworks! [stats]
-      (doseq [stat stats]
-        (when (:score stat)
-          (db/update-framework!
-            {:id (:framework_id stat)
-             :latest_score (:score stat)
-             :latest_delta (:delta stat)}))))
 
 (defn save! [data]
   (do
