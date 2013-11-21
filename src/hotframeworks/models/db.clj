@@ -19,7 +19,7 @@
   (has-many frameworks {:fk :language_id}))
 
 (defentity statistics
-  (belongs-to frameworks {:fk :statistic_id})
+  (belongs-to frameworks {:fk :framework_id})
   (belongs-to statistic-sets {:fk :statistic_set_id}))
 
 (defentity statistic-sets
@@ -33,6 +33,15 @@
   (select frameworks
           (order :latest_score :DESC)
           (limit max)))
+
+(defn framework-combined-score-history [id]
+  (select statistics
+          (with frameworks)
+          (with statistic-sets)
+          (fields :statistic_sets.date :score)
+          (where {:type "combined"
+                  :framework_id id})
+          (order :statistic_sets.date :ASC)))
 
 (defn update-framework! [map]
   (let [{:keys [id latest-score latest-delta]} map]
