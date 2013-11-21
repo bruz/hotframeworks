@@ -10,11 +10,11 @@
 (defn- date-score-to-point [stat]
   {:x (epoch-seconds (:date stat)) :y (:score stat)})
 
-(defn- framework-combined [framework]
-  (let [stats (db/framework-combined-score-history (:id framework))]
+(defn- framework-combined [framework max-timepoints]
+  (let [stats (db/framework-combined-score-history (:id framework) max-timepoints)]
     {:name (:name framework)
      :data (map date-score-to-point stats)}))
 
-(defn most-popular [max]
-  (let [top-five (db/most-popular-frameworks 5)]
-    (map framework-combined top-five)))
+(defn most-popular [max-frameworks max-timepoints]
+  (let [top-frameworks (db/most-popular-frameworks max-frameworks)]
+    (map #(framework-combined % max-timepoints) top-frameworks)))

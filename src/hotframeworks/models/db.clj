@@ -34,14 +34,16 @@
           (order :latest_score :DESC)
           (limit max)))
 
-(defn framework-combined-score-history [id]
+(defn framework-combined-score-history [id max-timepoints]
+  (reverse
   (select statistics
           (with frameworks)
           (with statistic-sets)
           (fields :statistic_sets.date :score)
           (where {:type "combined"
                   :framework_id id})
-          (order :statistic_sets.date :ASC)))
+          (order :statistic_sets.date :DESC)
+          (limit max-timepoints))))
 
 (defn update-framework! [map]
   (let [{:keys [id latest-score latest-delta]} map]
