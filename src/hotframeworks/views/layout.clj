@@ -11,7 +11,7 @@
                         [:li [:a {:href (str "/languages/" url_identifier)} name]]))
                  languages)]))))
 
-(defn common [& content]
+(defn common [content javascript]
   (html5
    [:head
     [:title "Web framework rankings | HotFrameworks"]
@@ -19,6 +19,7 @@
      {:content "width=device-width, initial-scale=1.0",
       :name "viewport"}]
     (include-css "/css/bootstrap.min.css")
+    (include-css "/css/rickshaw.min.css")
     (include-css "/css/hotframeworks.css")
     "<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->"
     "<!--[if lt IE 9]>"
@@ -49,4 +50,10 @@
         [:li [:a {:href "/faq"} "FAQ"]]]]]]
     [:div {:class "container"} content]
     [:script {:src "//code.jquery.com/jquery.js"}]
-    [:script {:src "/js/bootstrap.min.js"}]]))
+    [:script {:src "/js/bootstrap.min.js"}]
+    [:script {:src "/js/d3.v3.min.js"}]
+    [:script {:src "/js/rickshaw.min.js"}]
+    [:script {:src "/js/app.js"}]
+    (format "<script>
+            %s
+            </script>" javascript)]))
