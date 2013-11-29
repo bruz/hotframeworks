@@ -3,7 +3,8 @@
             [clojure.data.json :as json]
             [hotframeworks.views.layout :as layout]
             [hotframeworks.models.db :as db]
-            [hotframeworks.models.graphs :as graphs]))
+            [hotframeworks.models.graphs :as graphs]
+            [hotframeworks.models.framework :as framework]))
 
 (defn mini-ranking [frameworks]
   [:table {:class "table table-striped"}
@@ -21,12 +22,11 @@
          frameworks)]])
 
 (defn full-rankings []
-  (let [frameworks (db/latest-framework-scores)]
+  (let [frameworks (framework/latest-scores)]
     [:table {:class "table table-striped"}
      [:thead
       [:tr
        [:th "Framework"]
-       [:th "Language"]
        [:th "Github Score"]
        [:th "Link Score"]
        [:th "Traffic Score"]
@@ -37,8 +37,12 @@
       (map (fn [framework]
              [:tr
               [:td (:name framework)]
-              [:td (:latest_score framework)]
-              [:td (:latest_delta framework)]])
+              [:td (:github framework)]
+              [:td (:links framework)]
+              [:td (:traffic framework)]
+              [:td (:stackoverflow framework)]
+              [:td (:combined framework)]
+              [:td (:delta framework)]])
            frameworks)]]))
 
 (defn top-frameworks-json []
@@ -61,7 +65,8 @@
       [:div#legend]]]
     [:div.row
      [:div.col-md-12.page-header
-      [:h1 "Rankings"]]]]
+      [:h1 "Rankings"]
+      (full-rankings)]]]
    (format "var data = %s;
            Hotframeworks.graph('#graph', '#legend', data);"
            (top-frameworks-json))))

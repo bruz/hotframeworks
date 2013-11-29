@@ -90,3 +90,11 @@
                      :score (int score)
                      :value (int value)
                      :delta (if (nil? delta) nil (int delta))}))))
+
+(defn latest-statistics []
+  (let [statistic-set-id (:id (last-statistic-set))]
+    (select statistics
+            (with statistic-sets)
+            (with frameworks)
+            (fields :frameworks.name :type :score :delta)
+            (where {:statistic_set_id statistic-set-id}))))
