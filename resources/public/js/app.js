@@ -1,3 +1,8 @@
+$('.navbar').onePageNav({
+  scrollOffset: 51,
+  filter: ':not(.external)'
+});
+
 var Hotframeworks = {
 
   graph: function(graphSelector, legendSelector, data) {

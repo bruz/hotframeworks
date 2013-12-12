@@ -52,7 +52,7 @@
 (defn home []
   (layout/common
    [:div
-    [:div.row
+    [:div#top-frameworks.row
      [:div#about.col-md-12.page-header
       [:h1 "Find your new favorite web framework"
        [:br]
@@ -63,7 +63,7 @@
        [:div#graph]]]
      [:div.col-md-3
       [:div#legend]]]
-    [:div.row
+    [:div#rankings.row
      [:div.col-md-12.page-header
       [:h1 "Rankings"]
       (full-rankings)]]]

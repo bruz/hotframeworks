@@ -40,7 +40,8 @@
         [:span.icon-bar]]]
       [:div#navbar-main.navbar-collapse.collapse
        [:ul.nav.navbar-nav
-        [:li [:a {:href "/rankings"} "Rankings"]]
+        [:li.current [:a {:href "#top-frameworks"} "Top Frameworks"]]
+        [:li [:a {:href "#rankings"} "Rankings"]]
         [:li.dropdown
          [:a#download.dropdown-toggle
           {:href "#", :data-toggle "dropdown"}
@@ -51,6 +52,8 @@
     [:div {:class "container"} content]
     [:script {:src "//code.jquery.com/jquery.js"}]
     [:script {:src "/js/bootstrap.min.js"}]
+    [:script {:src "/js/jquery.scrollTo.js"}]
+    [:script {:src "/js/jquery.nav.js"}]
     [:script {:src "/js/d3.v3.min.js"}]
     [:script {:src "/js/rickshaw.min.js"}]
     [:script {:src "/js/app.js"}]
