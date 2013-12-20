@@ -5,7 +5,20 @@ $('.navbar').onePageNav({
 
 var Hotframeworks = {
 
-  graph: function(graphSelector, legendSelector, data) {
+  graphAll: function(data) {
+    Hotframeworks.graph('#graph', '#legend', data.topFrameworks, 500);
+
+    $.each(data.languages, function(id, language) {
+      Hotframeworks.graph(
+        '#language-' + id,
+        '#legend-' + id,
+        language.data,
+        350
+      );
+    });
+  },
+
+  graph: function(graphSelector, legendSelector, data, height) {
     var palette = new Rickshaw.Color.Palette();
 
     var seriesMaxes = [],
@@ -24,7 +37,7 @@ var Hotframeworks = {
       renderer: 'line',
       stroke: true,
       series: data,
-      height: 500,
+      height: height,
       min: min,
       max: max
     });

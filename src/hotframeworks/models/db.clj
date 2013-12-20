@@ -55,6 +55,11 @@
   (select languages
           (order :name :ASC)))
 
+(defn frameworks-for-language [language]
+  (select frameworks
+          (where {:language_id (:id language)})
+          (order :latest_score :DESC)))
+
 (defn latest-statistic-sets [number]
   (select statistic-sets
           (order :date :DESC)

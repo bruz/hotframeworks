@@ -45,9 +45,22 @@
               [:td (:delta framework)]])
            frameworks)]]))
 
-(defn top-frameworks-json []
+(defn top-frameworks-data []
   (json/write-str
    (graphs/most-popular 10 10)))
+
+(defn languages-data []
+  (into {}
+        (map (fn [language]
+               [(:id language)
+                {:name (:name language)
+                 :data (graphs/for-language language 10)}])
+             (db/all-languages-by-name))))
+
+(defn graph-data-json []
+  (json/write-str
+   {:topFrameworks (graphs/most-popular 10 10)
+    :languages (languages-data)}))
 
 (defn home []
   (layout/common
@@ -66,10 +79,23 @@
     [:div#rankings.row
      [:div.col-md-12.page-header
       [:h1 "Rankings"]
-      (full-rankings)]]]
+      (full-rankings)]]
+    [:div#languages
+     [:h1 "Languages"]
+     (map (fn [language]
+            (let [name (:name language)]
+              [:div.row
+               [:h2 name]
+               [:div.col-md-4
+                (mini-ranking (db/frameworks-for-language language))]
+               [:div.col-md-6
+                [:div {:id (str "language-" (:id language))}]]
+               [:div.col-md-2
+                [:div {:id (str "legend-" (:id language))}]]]))
+            (db/all-languages-by-name))]]
    (format "var data = %s;
-           Hotframeworks.graph('#graph', '#legend', data);"
-           (top-frameworks-json))))
+            Hotframeworks.graphAll(data);"
+           (graph-data-json))))
 
 (defroutes home-routes
   (GET "/" [] (home)))

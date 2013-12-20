@@ -15,6 +15,13 @@
     {:name (:name framework)
      :data (map date-score-to-point stats)}))
 
+(defn- frameworks-combined [frameworks max-timepoints]
+  (map #(framework-combined % max-timepoints) frameworks))
+
 (defn most-popular [max-frameworks max-timepoints]
   (let [top-frameworks (db/most-popular-frameworks max-frameworks)]
-    (map #(framework-combined % max-timepoints) top-frameworks)))
+    (frameworks-combined top-frameworks max-timepoints)))
+
+(defn for-language [language max-timepoints]
+  (let [frameworks (db/frameworks-for-language language)]
+    (frameworks-combined frameworks max-timepoints)))
