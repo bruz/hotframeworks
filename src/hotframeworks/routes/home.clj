@@ -11,14 +11,14 @@
    [:thead
     [:tr
      [:th "Framework"]
-     [:th "Score"]
-     [:th "Weekly Change"]]]
+     [:th.score "Score"]
+     [:th.score "Weekly Change"]]]
    [:tbody
     (map (fn [framework]
            [:tr
             [:td (:name framework)]
-            [:td (:latest_score framework)]
-            [:td (:latest_delta framework)]])
+            [:td.score (:latest_score framework)]
+            [:td.score (:latest_delta framework)]])
          frameworks)]])
 
 (defn full-rankings []
@@ -27,22 +27,22 @@
      [:thead
       [:tr
        [:th "Framework"]
-       [:th "Github Score"]
-       [:th "Link Score"]
-       [:th "Traffic Score"]
-       [:th "Stackoverflow Score"]
-       [:th "Overall Score"]
-       [:th "Weekly Change"]]]
+       [:th.score "Github Score"]
+       [:th.score "Link Score"]
+       [:th.score "Traffic Score"]
+       [:th.score "Stackoverflow Score"]
+       [:th.score "Overall Score"]
+       [:th.score "Weekly Change"]]]
      [:tbody
       (map (fn [framework]
              [:tr
-              [:td (:name framework)]
-              [:td (:github framework)]
-              [:td (:links framework)]
-              [:td (:traffic framework)]
-              [:td (:stackoverflow framework)]
-              [:td (:combined framework)]
-              [:td (:delta framework)]])
+              [:td.score (:name framework)]
+              [:td.score (:github framework)]
+              [:td.score (:links framework)]
+              [:td.score (:traffic framework)]
+              [:td.score (:stackoverflow framework)]
+              [:td.score (:combined framework)]
+              [:td.score (:delta framework)]])
            frameworks)]]))
 
 (defn top-frameworks-data []
