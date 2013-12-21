@@ -7,4 +7,4 @@
   (let [owner (framework :github_owner )
         repo-name (framework :github_repo )
         auth {:oauth-token (config/lookup "GITHUB_ACCESS_TOKEN")}]
-    ((tentacles.repos/specific-repo owner repo-name auth) :watchers )))
+    ((tentacles.repos/specific-repo owner repo-name auth) :stargazers_count )))

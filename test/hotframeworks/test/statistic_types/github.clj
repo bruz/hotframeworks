@@ -8,7 +8,7 @@
   (def framework {:github_owner "Raynes" :github_repo "tentacles"})
   (github/stat framework) => 99
   (provided (config/lookup "GITHUB_ACCESS_TOKEN") => "SECRET")
-  (provided (repos/specific-repo "Raynes" "tentacles" {:oauth-token "SECRET"}) => {:watchers 99}))
+  (provided (repos/specific-repo "Raynes" "tentacles" {:oauth-token "SECRET"}) => {:stargazers_count 99}))
 
 (fact "statistic is nil without github owner/repo"
   (def framework {})
