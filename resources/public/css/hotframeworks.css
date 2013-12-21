@@ -1,5 +1,6 @@
 body {
   padding-top: 50px;
+  margin-bottom: 100px;
 }
 
 .navbar-nav li.current a {
@@ -31,4 +32,12 @@ td.score, th.score {
 
 .row.language {
   margin-top: 50px;
+}
+
+#faq, #suggestion {
+  margin-top: 50px;
+}
+
+#suggestion {
+  margin-left: -15px;
 }

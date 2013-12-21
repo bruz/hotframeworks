@@ -48,7 +48,7 @@
           "Languages "
           [:span.caret]]
          (language-menu)]
-        [:li [:a {:href "/faq"} "FAQ"]]]]]]
+        [:li [:a {:href "#faq"} "FAQ"]]]]]]
     [:div {:class "container"} content]
     [:script {:src "//code.jquery.com/jquery.js"}]
     [:script {:src "/js/bootstrap.min.js"}]

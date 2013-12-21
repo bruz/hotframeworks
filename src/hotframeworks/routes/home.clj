@@ -30,7 +30,7 @@
        [:th.score "Github Score"]
        [:th.score "Link Score"]
        [:th.score "Traffic Score"]
-       [:th.score "Stackoverflow Score"]
+       [:th.score "Stack Overflow Score"]
        [:th.score "Overall Score"]
        [:th.score "Weekly Change"]]]
      [:tbody
@@ -92,9 +92,81 @@
                 [:div {:id (str "language-chart-" (:id language))}]]
                [:div.col-md-2
                 [:div {:id (str "language-legend-" (:id language))}]]]))
-            (db/all-languages-by-name))]]
+          (db/all-languages-by-name))]
+    [:div#faq
+     [:h1 "Frequently Asked Questions"]
+     [:h3 "How are the different frameworks scored?"]
+     [:p
+      "Each framework is scored by four separate measures, and these are
+      simply averaged. The four measures are:"]
+     [:ol
+      [:li
+       "GitHub score: Based on the number of stars the git repository for a
+       framework has on GitHub. Since Hotframeworks can't
+       measure this for frameworks not on GitHub, you'll see 'N/A' for those."]
+      [:li
+       "Link score: Based on the number of inbound likes to the framework's home
+       page. Unfortunately Hotframeworks can only get statistics for
+       frameworks that have their own domain, so frameworks that are hosted
+       under another domain (for example Wicket lives at http://wicket.apache.org)
+       will show 'N/A' for this score."]
+      [:li
+       "Traffic score: Based on the traffic statistics for the web site for each
+       framework. Like the link score, this is only available if the framework
+       has its own domain."]
+      [:li
+       "Stack Overflow score: Based on the number of questions on Stack Overflow
+       that are tagged with the name of the framework."]]
+     [:p
+      "Since these three measure of popularity are on different scales the final scores normalized to a scale of 0-100. The scores on a log scale since the measures cover such a large
+      range, so for instance a framework with a score of 90 for inbound links
+      may have thousands of links while a framework with a score of 10-20 might
+      just have a handful."]
+     [:h3 " Why does my favorite framework have such a low score? "]
+     [:p
+      " Since scores are simply calculated as an average of the three measures
+      described in the previous question, you can investigate the individual scores
+      as compared to other frameworks to see why your framework places where it
+      does. With Github scores for instance, you can look at how many watchers
+      your framework has and compare it to frameworks with higher scores.
+      Likewise you can compare traffic stats using a service like "
+      [:a {:href "http://alexa.com/"} "Alexa"]
+      " or inbound links by doing a Google link search (use
+      \"link:myfavoriteframework.com\" in the search field). If you still
+      think something is wrong with the score after doing some
+      investigation, please "
+      [:a {:href "#suggestion"} "let us know."]]
+     [:h3 "Why isn't my favorite framework listed? It's so cool!"]
+     [:p
+      "I'd love to hear about it. Just "
+      [:a {:href "#suggestion"} "send a suggestion"]
+      "."]
+     [:h3
+      "What are the criteria for deciding if something is a \"web framework\"?"]
+     [:p
+      "As a rough guide, if you can finish the sentence \"I just built this
+      sweet new web application with [insert name of framework here]\", then it'd
+      probably be considered a web framework. Note that frameworks don't have to
+      be \"full-stack\", they can be client-side only (like "
+      [:a {:href "http://hotframeworks.com/frameworks/gwt"} "GWT"]
+      " ) or server-side only and qualify. Hotframeworks doesn't include JavaScript
+      libraries like jQuery and MooTools though since these are typically
+      used to enhance web applications that are built using another framework.
+      Feel free to "
+      [:a {:href "#suggestion"}
+       "suggest we add a framework."]]]
+    [:div#suggestion
+     [:div#wufoo-z1oha8090rgmrix
+      "\nFill out my "
+      [:a
+       {:href "https://bruzilla.wufoo.com/forms/z1oha8090rgmrix"}
+       "online form"]
+      ".\n"]
+     [:script
+      {:type "text/javascript"}
+      "var z1oha8090rgmrix;(function(d, t) {\nvar s = d.createElement(t), options = {\n'userName':'bruzilla', \n'formHash':'z1oha8090rgmrix', \n'autoResize':true,\n'height':'437',\n'async':true,\n'host':'wufoo.com',\n'header':'show', \n'ssl':true};\ns.src = ('https:' == d.location.protocol ? 'https://' : 'http://') + 'wufoo.com/scripts/embed/form.js';\ns.onload = s.onreadystatechange = function() {\nvar rs = this.readyState; if (rs) if (rs != 'complete') if (rs != 'loaded') return;\ntry { z1oha8090rgmrix = new WufooForm();z1oha8090rgmrix.initialize(options);z1oha8090rgmrix.display(); } catch (e) {}};\nvar scr = d.getElementsByTagName(t)[0], par = scr.parentNode; par.insertBefore(s, scr);\n})(document, 'script');"]]]
    (format "var data = %s;
-            Hotframeworks.graphAll(data);"
+           Hotframeworks.graphAll(data);"
            (graph-data-json))))
 
 (defroutes home-routes
