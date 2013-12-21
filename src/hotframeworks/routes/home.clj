@@ -84,7 +84,7 @@
      [:h1 "Languages"]
      (map (fn [language]
             (let [name (:name language)]
-              [:div.row {:id (str "language-" (:id language))}
+              [:div.row.language {:id (str "language-" (:id language))}
                [:h2 name]
                [:div.col-md-4
                 (mini-ranking (db/frameworks-for-language language))]

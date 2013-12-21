@@ -4,6 +4,7 @@ body {
 
 .navbar-nav li.current a {
   background-color: #97310e;
+  color: #FFF;
 }
 
 .navbar-nav li.current .dropdown-menu a {
@@ -26,4 +27,8 @@ td.score, th.score {
 #legend .action {
   color: black;
   opacity: 0.6;
+}
+
+.row.language {
+  margin-top: 50px;
 }
