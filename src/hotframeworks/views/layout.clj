@@ -7,8 +7,8 @@
     (into [] (concat
                [:ul.dropdown-menu {:aria-labelledby "languages"}
                  (map (fn [language]
-                      (let [{:keys [name url_identifier]} language]
-                        [:li [:a {:href (str "/languages/" url_identifier)} name]]))
+                      (let [{:keys [name id]} language]
+                        [:li [:a {:href (str "#language-" id)} name]]))
                  languages)]))))
 
 (defn common [content javascript]
@@ -43,7 +43,7 @@
         [:li.current [:a {:href "#top-frameworks"} "Top Frameworks"]]
         [:li [:a {:href "#rankings"} "Rankings"]]
         [:li.dropdown
-         [:a#download.dropdown-toggle
+         [:a#download.dropdown-toggle.non-nav
           {:href "#", :data-toggle "dropdown"}
           "Languages "
           [:span.caret]]

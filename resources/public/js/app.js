@@ -1,6 +1,6 @@
 $('.navbar').onePageNav({
   scrollOffset: 51,
-  filter: ':not(.external)'
+  filter: ':not(.non-nav)'
 });
 
 var Hotframeworks = {
@@ -10,8 +10,8 @@ var Hotframeworks = {
 
     $.each(data.languages, function(id, language) {
       Hotframeworks.graph(
-        '#language-' + id,
-        '#legend-' + id,
+        '#language-chart-' + id,
+        '#language-legend-' + id,
         language.data,
         350
       );

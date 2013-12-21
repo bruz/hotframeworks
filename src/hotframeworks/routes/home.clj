@@ -84,14 +84,14 @@
      [:h1 "Languages"]
      (map (fn [language]
             (let [name (:name language)]
-              [:div.row
+              [:div.row {:id (str "language-" (:id language))}
                [:h2 name]
                [:div.col-md-4
                 (mini-ranking (db/frameworks-for-language language))]
                [:div.col-md-6
-                [:div {:id (str "language-" (:id language))}]]
+                [:div {:id (str "language-chart-" (:id language))}]]
                [:div.col-md-2
-                [:div {:id (str "legend-" (:id language))}]]]))
+                [:div {:id (str "language-legend-" (:id language))}]]]))
             (db/all-languages-by-name))]]
    (format "var data = %s;
             Hotframeworks.graphAll(data);"
