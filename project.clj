@@ -15,7 +15,9 @@
                  [org.clojure/data.zip "0.1.1"]
                  [org.clojure/data.xml "0.0.6"]
                  [clj-time "0.6.0"]
-                 [org.clojure/data.json "0.2.3"]]
+                 [org.clojure/data.json "0.2.3"]
+                 [clj-aws-s3 "0.3.7"]
+                 [clj-glob "1.0.0"]]
   :plugins [[lein-ring "0.8.5"]]
   :profiles {:dev {:dependencies [[midje "1.5.1"]
                                   [lein-localrepo "0.3"]
@@ -30,4 +32,5 @@
                :auto-reload? false}}}
   :ring {:handler hotframeworks.handler/war-handler
          :init hotframeworks.handler/init
-         :destroy hotframeworks.handler/destroy})
+         :destroy hotframeworks.handler/destroy}
+  :main hotframeworks.generator)
