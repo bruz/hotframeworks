@@ -11,7 +11,6 @@
                  [korma "0.3.0-RC5"]
                  [tentacles "0.2.6"]
                  [org.clojars.bruz/stacktraces "0.1.0"]
-                 [clj-amazon-awis "0.1.3"]
                  [org.clojure/data.zip "0.1.1"]
                  [org.clojure/data.xml "0.0.6"]
                  [clj-time "0.6.0"]

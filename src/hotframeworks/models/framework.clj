@@ -11,7 +11,7 @@
             (map (fn [type]
                    (let [score (find-by-type scores type)]
                      {(keyword type) (:score score)}))
-                 ["github" "stackoverflow" "links" "traffic"]))))
+                 ["github" "stackoverflow"]))))
 
 (defn latest-scores []
   (let [statistics (db/latest-statistics)

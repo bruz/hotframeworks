@@ -2,8 +2,7 @@
   (:require [hotframeworks.models.statistic-set :as statistic-set]
             [hotframeworks.models.db :as db]
             [hotframeworks.statistic-types.github :as github]
-            [hotframeworks.statistic-types.stackoverflow :as stackoverflow]
-            [hotframeworks.statistic-types.awis :as awis])
+            [hotframeworks.statistic-types.stackoverflow :as stackoverflow])
   (:use midje.sweet))
 
 (def tentacles {:id 1 :github_owner "Raynes" :github_repo "tentacles"})
@@ -16,13 +15,7 @@
                      (github/stat rails) => 1200
                      (stackoverflow/stat tentacles) => 90
                      (stackoverflow/stat noir) => 50
-                     (stackoverflow/stat rails) => 400
-                     (awis/traffic-stat tentacles) => 2
-                     (awis/traffic-stat noir) => 4
-                     (awis/traffic-stat rails) => 20
-                     (awis/link-stat tentacles) => 40
-                     (awis/link-stat noir) => 300
-                     (awis/link-stat rails) => 200000]
+                     (stackoverflow/stat rails) => 400]
 
                     (fact "about pulling stats with a prior stat set"
                           (statistic-set/pull) => {:github
@@ -33,17 +26,9 @@
                                                    [{:framework_id 1 :value 90 :score 28 :delta 28}
                                                     {:framework_id 2 :value 50 :score 0 :delta -71}
                                                     {:framework_id 3 :value 400 :score 100 :delta 0}]
-                                                   :traffic
-                                                   [{:delta 0 :score 0 :framework_id 1 :value 2}
-                                                    {:delta -41 :score 30 :framework_id 2 :value 4}
-                                                    {:delta 0 :score 100 :framework_id 3 :value 20}]
-                                                   :links
-                                                   [{:delta 0 :score 0 :framework_id 1 :value 40}
-                                                    {:delta -48 :score 23 :framework_id 2 :value 300}
-                                                    {:delta 0 :score 100 :framework_id 3 :value 200000}]
                                                    :combined
-                                                   [{:delta 3 :score 7 :framework_id 1 :value 7}
-                                                    {:delta -9 :score 31 :framework_id 2 :value 31}
+                                                   [{:delta 10 :score 14 :framework_id 1 :value 14}
+                                                    {:delta -5 :score 35 :framework_id 2 :value 35}
                                                     {:delta 2 :score 100 :framework_id 3 :value 100}]}
 
                           (provided (db/last-statistic-set) => {:id 42 :date "DATE"})
@@ -54,12 +39,6 @@
                                                                                       {:framework_id 1 :value 100 :score 0 :type "stackoverflow"}
                                                                                       {:framework_id 2 :value 40 :score 71 :type "stackoverflow"}
                                                                                       {:framework_id 3 :value 420 :score 100 :type "stackoverflow"}
-                                                                                      {:framework_id 1 :value 2 :score 0 :type "traffic"}
-                                                                                      {:framework_id 2 :value 3 :score 71 :type "traffic"}
-                                                                                      {:framework_id 3 :value 21 :score 100 :type "traffic"}
-                                                                                      {:framework_id 1 :value 35 :score 0 :type "links"}
-                                                                                      {:framework_id 2 :value 390 :score 71 :type "links"}
-                                                                                      {:framework_id 3 :value 19900 :score 100 :type "links"}
                                                                                       {:framework_id 1 :value 35 :score 4 :type "combined"}
                                                                                       {:framework_id 2 :value 390 :score 40 :type "combined"}
                                                                                       {:framework_id 3 :value 19900 :score 98 :type "combined"}]))
@@ -73,17 +52,9 @@
                                                    [{:framework_id 1 :value 90 :score 28}
                                                     {:framework_id 2 :value 50 :score 0}
                                                     {:framework_id 3 :value 400 :score 100}]
-                                                   :traffic
-                                                   [{:framework_id 1 :value 2 :score 0}
-                                                    {:framework_id 2 :value 4 :score 30}
-                                                    {:framework_id 3 :value 20 :score 100}]
-                                                   :links
-                                                   [{:framework_id 1 :value 40 :score 0}
-                                                    {:framework_id 2 :value 300 :score 23}
-                                                    {:framework_id 3 :value 200000 :score 100}]
                                                    :combined
-                                                   [{:framework_id 1 :value 7 :score 7}
-                                                    {:framework_id 2 :value 31 :score 31}
+                                                   [{:framework_id 1 :value 14 :score 14}
+                                                    {:framework_id 2 :value 35 :score 35}
                                                     {:framework_id 3 :value 100 :score 100}]}
 
                           (provided (db/last-statistic-set) => [])))

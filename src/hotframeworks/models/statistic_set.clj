@@ -1,19 +1,16 @@
 (ns hotframeworks.models.statistic-set
   (:require [hotframeworks.models.db :as db]
-            [hotframeworks.statistic-types.awis :as awis]
             [hotframeworks.statistic-types.github :as github]
             [hotframeworks.statistic-types.stackoverflow :as stackoverflow]))
 
-(def statistic-types [:github :stackoverflow :traffic :links])
+(def statistic-types [:github :stackoverflow])
 
 (defn stat [framework type]
   (do
     (prn (str "Pulling " (name type) " stat for " (framework :name) "..."))
     (cond
       (= type :github ) (github/stat framework)
-      (= type :stackoverflow ) (stackoverflow/stat framework)
-      (= type :traffic ) (awis/traffic-stat framework)
-      (= type :links ) (awis/link-stat framework))))
+      (= type :stackoverflow ) (stackoverflow/stat framework))))
 
 (defn stats [frameworks type]
   (map (fn [framework]

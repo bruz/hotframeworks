@@ -28,8 +28,6 @@
       [:tr
        [:th "Framework"]
        [:th.score "Github Score"]
-       [:th.score "Link Score"]
-       [:th.score "Traffic Score"]
        [:th.score "Stack Overflow Score"]
        [:th.score "Overall Score"]
        [:th.score "Weekly Change"]]]
@@ -38,8 +36,6 @@
              [:tr
               [:td.score (:name framework)]
               [:td.score (:github framework)]
-              [:td.score (:links framework)]
-              [:td.score (:traffic framework)]
               [:td.score (:stackoverflow framework)]
               [:td.score (:combined framework)]
               [:td.score (:delta framework)]])
@@ -105,22 +101,12 @@
        framework has on GitHub. Since Hotframeworks can't
        measure this for frameworks not on GitHub, you'll see 'N/A' for those."]
       [:li
-       "Link score: Based on the number of inbound likes to the framework's home
-       page. Unfortunately Hotframeworks can only get statistics for
-       frameworks that have their own domain, so frameworks that are hosted
-       under another domain (for example Wicket lives at http://wicket.apache.org)
-       will show 'N/A' for this score."]
-      [:li
-       "Traffic score: Based on the traffic statistics for the web site for each
-       framework. Like the link score, this is only available if the framework
-       has its own domain."]
-      [:li
        "Stack Overflow score: Based on the number of questions on Stack Overflow
        that are tagged with the name of the framework."]]
      [:p
       "Since these three measure of popularity are on different scales the final scores normalized to a scale of 0-100. The scores on a log scale since the measures cover such a large
-      range, so for instance a framework with a score of 90 for inbound links
-      may have thousands of links while a framework with a score of 10-20 might
+      range, so for instance a framework with a score of 90 for Stack Overflow
+      may have thousands of questions while a framework with a score of 10-20 might
       just have a handful."]
      [:h3 " Why does my favorite framework have such a low score? "]
      [:p
@@ -129,11 +115,7 @@
       as compared to other frameworks to see why your framework places where it
       does. With Github scores for instance, you can look at how many watchers
       your framework has and compare it to frameworks with higher scores.
-      Likewise you can compare traffic stats using a service like "
-      [:a {:href "http://alexa.com/"} "Alexa"]
-      " or inbound links by doing a Google link search (use
-      \"link:myfavoriteframework.com\" in the search field). If you still
-      think something is wrong with the score after doing some
+      If you still think something is wrong with the score after doing some
       investigation, please "
       [:a {:href "#suggestion"} "let us know."]]
      [:h3 "Why isn't my favorite framework listed? It's so cool!"]
