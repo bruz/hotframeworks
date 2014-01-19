@@ -60,6 +60,11 @@
           (where {:language_id (:id language)})
           (order :latest_score :DESC)))
 
+(defn language-for-url-identifier [identifier]
+  (first
+    (select languages
+      (where {:url_identifier identifier}))))
+
 (defn latest-statistic-sets [number]
   (select statistic-sets
           (order :date :DESC)

@@ -1,12 +1,12 @@
-(ns hotframeworks.routes.home
-  (:require [compojure.core :refer :all]
-            [clojure.data.json :as json]
+(ns hotframeworks.views.main
+  (:require [clojure.data.json :as json]
+            [compojure.route :as route]
             [hotframeworks.views.layout :as layout]
             [hotframeworks.models.db :as db]
             [hotframeworks.models.graphs :as graphs]
             [hotframeworks.models.framework :as framework]))
 
-(defn mini-ranking [frameworks]
+(defn- mini-ranking [frameworks]
   [:table {:class "table table-striped"}
    [:thead
     [:tr
@@ -21,7 +21,7 @@
             [:td.score (:latest_delta framework)]])
          frameworks)]])
 
-(defn full-rankings []
+(defn- full-rankings []
   (let [frameworks (framework/latest-scores)]
     [:table {:class "table table-striped"}
      [:thead
@@ -41,22 +41,13 @@
               [:td.score (:delta framework)]])
            frameworks)]]))
 
-(defn top-frameworks-data []
+(defn- top-data-json []
   (json/write-str
    (graphs/most-popular 10 10)))
 
-(defn languages-data []
-  (into {}
-        (map (fn [language]
-               [(:id language)
-                {:name (:name language)
-                 :data (graphs/for-language language 10)}])
-             (db/all-languages-by-name))))
-
-(defn graph-data-json []
+(defn- language-data-json [language]
   (json/write-str
-   {:topFrameworks (graphs/most-popular 10 10)
-    :languages (languages-data)}))
+   (graphs/for-language language 10)))
 
 (defn home []
   (layout/common
@@ -75,20 +66,31 @@
     [:div#rankings.row
      [:div.col-md-12.page-header
       [:h1 "Rankings"]
-      (full-rankings)]]
-    [:div#languages
-     [:h1 "Languages"]
-     (map (fn [language]
-            (let [name (:name language)]
-              [:div.row.language {:id (str "language-" (:id language))}
-               [:h2 name]
-               [:div.col-md-4
-                (mini-ranking (db/frameworks-for-language language))]
-               [:div.col-md-6
-                [:div {:id (str "language-chart-" (:id language))}]]
-               [:div.col-md-2
-                [:div {:id (str "language-legend-" (:id language))}]]]))
-          (db/all-languages-by-name))]
+      (full-rankings)]]]
+   (format "var data = %s;
+           Hotframeworks.graph(data);"
+           (top-data-json))))
+
+(defn language [identifier]
+  (let [language (db/language-for-url-identifier identifier)]
+    (if language
+      (layout/common
+       [:div.row.language {:id (str "language-" (:id language))}
+        [:h1 (:name language)]
+        [:div.col-md-4
+         (mini-ranking (db/frameworks-for-language language))]
+        [:div.col-md-6
+         [:div#graph]]
+        [:div.col-md-2
+         [:div#legend]]]
+       (format "var data = %s;
+               Hotframeworks.graph(data);"
+               (language-data-json language)))
+      (route/not-found "Not Found"))))
+
+(defn faq []
+  (layout/common
+   [:div
     [:div#faq
      [:h1 "Frequently Asked Questions"]
      [:h3 "How are the different frameworks scored?"]
@@ -147,9 +149,4 @@
      [:script
       {:type "text/javascript"}
       "var z1oha8090rgmrix;(function(d, t) {\nvar s = d.createElement(t), options = {\n'userName':'bruzilla', \n'formHash':'z1oha8090rgmrix', \n'autoResize':true,\n'height':'437',\n'async':true,\n'host':'wufoo.com',\n'header':'show', \n'ssl':true};\ns.src = ('https:' == d.location.protocol ? 'https://' : 'http://') + 'wufoo.com/scripts/embed/form.js';\ns.onload = s.onreadystatechange = function() {\nvar rs = this.readyState; if (rs) if (rs != 'complete') if (rs != 'loaded') return;\ntry { z1oha8090rgmrix = new WufooForm();z1oha8090rgmrix.initialize(options);z1oha8090rgmrix.display(); } catch (e) {}};\nvar scr = d.getElementsByTagName(t)[0], par = scr.parentNode; par.insertBefore(s, scr);\n})(document, 'script');"]]]
-   (format "var data = %s;
-           Hotframeworks.graphAll(data);"
-           (graph-data-json))))
-
-(defroutes home-routes
-  (GET "/" [] (home)))
+   ""))

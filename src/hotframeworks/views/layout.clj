@@ -7,8 +7,8 @@
     (into [] (concat
                [:ul.dropdown-menu {:aria-labelledby "languages"}
                  (map (fn [language]
-                      (let [{:keys [name id]} language]
-                        [:li [:a {:href (str "#language-" id)} name]]))
+                      (let [{:keys [name url_identifier]} language]
+                        [:li [:a {:href (str "/languages/" url_identifier)} name]]))
                  languages)]))))
 
 (defn common [content javascript]
@@ -40,20 +40,19 @@
         [:span.icon-bar]]]
       [:div#navbar-main.navbar-collapse.collapse
        [:ul.nav.navbar-nav
-        [:li.current [:a {:href "#top-frameworks"} "Top Frameworks"]]
-        [:li [:a {:href "#rankings"} "Rankings"]]
+        [:li [:a {:href "#top-frameworks"} "Top Frameworks"]]
+        [:li [:a {:href "/#rankings"} "Rankings"]]
         [:li.dropdown
-         [:a#download.dropdown-toggle.non-nav
+         [:a#download.dropdown-toggle
           {:href "#", :data-toggle "dropdown"}
           "Languages "
           [:span.caret]]
          (language-menu)]
-        [:li [:a {:href "#faq"} "FAQ"]]]]]]
+        [:li [:a {:href "/faq"} "FAQ"]]]]]]
     [:div {:class "container"} content]
     [:script {:src "//code.jquery.com/jquery.js"}]
     [:script {:src "/js/bootstrap.min.js"}]
     [:script {:src "/js/jquery.scrollTo.js"}]
-    [:script {:src "/js/jquery.nav.js"}]
     [:script {:src "/js/d3.v3.min.js"}]
     [:script {:src "/js/rickshaw.min.js"}]
     [:script {:src "/js/app.js"}]

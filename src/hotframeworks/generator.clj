@@ -1,6 +1,6 @@
 (ns hotframeworks.generator
   (:require [hotframeworks.models.statistic-set :as statistic-set]
-            [hotframeworks.routes.home :as home]
+            [hotframeworks.views.main :as main]
             [hotframeworks.config :as config]
             [aws.sdk.s3 :as s3]
             [org.satta.glob :refer [glob]])
@@ -23,7 +23,7 @@
     (upload-file file (str "css/" (.getName file)) "text/css")))
 
 (defn upload-content []
-  (let [home-html (home/home)]
+  (let [home-html (main/home)]
     (upload-file home-html "index.html" "text/html")
     (upload-js)
     (upload-css)))

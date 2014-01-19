@@ -1,24 +1,6 @@
-$('.navbar').onePageNav({
-  scrollOffset: 51,
-  filter: ':not(.non-nav)'
-});
-
 var Hotframeworks = {
 
-  graphAll: function(data) {
-    Hotframeworks.graph('#graph', '#legend', data.topFrameworks, 500);
-
-    $.each(data.languages, function(id, language) {
-      Hotframeworks.graph(
-        '#language-chart-' + id,
-        '#language-legend-' + id,
-        language.data,
-        350
-      );
-    });
-  },
-
-  graph: function(graphSelector, legendSelector, data, height) {
+  graph: function(data) {
     var palette = new Rickshaw.Color.Palette();
 
     var seriesMaxes = [],
@@ -33,18 +15,18 @@ var Hotframeworks = {
     var min = Math.min.apply(Math, seriesMins);
 
     var graph = new Rickshaw.Graph( {
-      element: document.querySelector(graphSelector),
+      element: document.querySelector("#graph"),
       renderer: 'line',
       stroke: true,
       series: data,
-      height: height,
+      height: 500,
       min: min,
       max: max
     });
 
     var legend = new Rickshaw.Graph.Legend({
       graph: graph,
-      element: document.querySelector(legendSelector),
+      element: document.querySelector("#legend"),
       naturalOrder: true
     });
 
