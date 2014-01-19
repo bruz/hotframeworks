@@ -147,8 +147,8 @@
      [:h1 "Frequently Asked Questions"]
      [:h3 "How are the different frameworks scored?"]
      [:p
-      "Each framework is scored by four separate measures, and these are
-      simply averaged. The four measures are:"]
+      "Each framework is scored by two separate measures, and these are
+      simply averaged. The two measures are:"]
      [:ol
       [:li
        "GitHub score: Based on the number of stars the git repository for a
@@ -158,7 +158,9 @@
        "Stack Overflow score: Based on the number of questions on Stack Overflow
        that are tagged with the name of the framework."]]
      [:p
-      "Since these three measure of popularity are on different scales the final scores normalized to a scale of 0-100. The scores on a log scale since the measures cover such a large
+      "Since these two measures of popularity are on different scales the final
+      scores normalized to a scale of 0-100. The scores are on a log scale since
+      the measures cover such a large
       range, so for instance a framework with a score of 90 for Stack Overflow
       may have thousands of questions while a framework with a score of 10-20 might
       just have a handful."]
