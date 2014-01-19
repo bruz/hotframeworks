@@ -44,6 +44,11 @@
            (order :statistic_sets.date :DESC)
            (limit max-timepoints))))
 
+(defn framework-for-url-identifier [identifier]
+  (first
+   (select frameworks
+           (where {:url_identifier identifier}))))
+
 (defn update-framework! [map]
   (let [{:keys [id latest-score latest-delta]} map]
     (update frameworks
@@ -62,8 +67,13 @@
 
 (defn language-for-url-identifier [identifier]
   (first
-    (select languages
-      (where {:url_identifier identifier}))))
+   (select languages
+           (where {:url_identifier identifier}))))
+
+(defn language-for-id [id]
+  (first
+   (select languages
+           (where {:id id}))))
 
 (defn latest-statistic-sets [number]
   (select statistic-sets
@@ -106,5 +116,14 @@
     (select statistics
             (with statistic-sets)
             (with frameworks)
-            (fields :frameworks.name :type :score :delta)
+            (fields :frameworks.name :frameworks.url_identifier :type :score :delta)
             (where {:statistic_set_id statistic-set-id}))))
+
+(defn latest-statistics-for-framework [framework]
+  (let [statistic-set-id (:id (last-statistic-set))]
+    (select statistics
+            (with statistic-sets)
+            (with frameworks)
+            (fields :frameworks.name :frameworks.url_identifier :type :score :delta)
+            (where {:statistic_set_id statistic-set-id
+                    :frameworks.id (:id framework)}))))

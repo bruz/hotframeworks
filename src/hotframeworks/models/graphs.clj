@@ -10,7 +10,7 @@
 (defn- date-score-to-point [stat]
   {:x (epoch-seconds (:date stat)) :y (:score stat)})
 
-(defn- framework-combined [framework max-timepoints]
+(defn framework-combined [framework max-timepoints]
   (let [stats (db/framework-combined-score-history (:id framework) max-timepoints)]
     {:name (:name framework)
      :data (map date-score-to-point stats)}))
@@ -25,3 +25,6 @@
 (defn for-language [language max-timepoints]
   (let [frameworks (db/frameworks-for-language language)]
     (frameworks-combined frameworks max-timepoints)))
+
+(defn for-framework [framework max-timepoints]
+  (frameworks-combined [framework] max-timepoints))

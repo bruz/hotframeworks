@@ -6,6 +6,9 @@
             [hotframeworks.models.graphs :as graphs]
             [hotframeworks.models.framework :as framework]))
 
+(defn- framework-link [framework]
+  (str "/frameworks/" (:url_identifier framework)))
+
 (defn- mini-ranking [frameworks]
   [:table {:class "table table-striped"}
    [:thead
@@ -16,7 +19,7 @@
    [:tbody
     (map (fn [framework]
            [:tr
-            [:td (:name framework)]
+            [:td [:a {:href (framework-link framework)} (:name framework)]]
             [:td.score (:latest_score framework)]
             [:td.score (:latest_delta framework)]])
          frameworks)]])
@@ -34,7 +37,7 @@
      [:tbody
       (map (fn [framework]
              [:tr
-              [:td.score (:name framework)]
+              [:td.score [:a {:href (framework-link framework)}(:name framework)]]
               [:td.score (:github framework)]
               [:td.score (:stackoverflow framework)]
               [:td.score (:combined framework)]
@@ -48,6 +51,10 @@
 (defn- language-data-json [language]
   (json/write-str
    (graphs/for-language language 10)))
+
+(defn- framework-data-json [framework]
+  (json/write-str
+   (graphs/for-framework framework 10)))
 
 (defn home []
   (layout/common
@@ -75,7 +82,7 @@
   (let [language (db/language-for-url-identifier identifier)]
     (if language
       (layout/common
-       [:div.row.language {:id (str "language-" (:id language))}
+       [:div.row
         [:h1 (:name language)]
         [:div.col-md-4
          (mini-ranking (db/frameworks-for-language language))]
@@ -86,6 +93,51 @@
        (format "var data = %s;
                Hotframeworks.graph(data);"
                (language-data-json language)))
+      (route/not-found "Not Found"))))
+
+(defn framework [identifier]
+  (let [framework (db/framework-for-url-identifier identifier)
+        github (framework/latest-score-for-framework framework "github")
+        stackoverflow (framework/latest-score-for-framework framework "stackoverflow")
+        combined (framework/latest-score-for-framework framework "combined")
+        language (db/language-for-id (:language_id framework))
+        language-link (str "/languages/" (:url_identifier language))
+        github-link (str "https://github.com/" (:github_owner framework) "/" (:github_repo framework))]
+    (if framework
+      (layout/common
+       [:div#framework.row
+        [:h1 (:name framework)]
+        [:br]
+        [:div.col-md-6.
+         [:div.col-md-4
+          [:div.panel.panel-primary
+           [:div.panel-heading "GitHub"]
+           [:div.panel-body github]]]
+         [:div.col-md-4
+          [:div.panel.panel-primary
+           [:div.panel-heading "Stack Overflow"]
+           [:div.panel-body stackoverflow]]]
+         [:div.col-md-4
+          [:div.panel.panel-primary
+           [:div.panel-heading "Combined"]
+           [:div.panel-body combined]]]
+         (when (:description framework)
+           [:p "Description: " (:description framework)])
+         [:p "Language: "
+          [:a {:href language-link} (:name language)]]
+         [:p "Framework Link: "
+          [:a {:href (:site_url framework)} (:site_url framework)]]
+         (when (:github_repo framework)
+           [:p
+            "GitHub Link: "
+            [:a {:href github-link} github-link]])]
+        [:div.col-md-4
+         [:div#graph]]
+        [:div.col-md-2
+         [:div#legend]]]
+       (format "var data = %s;
+               Hotframeworks.graph(data);"
+               (framework-data-json framework)))
       (route/not-found "Not Found"))))
 
 (defn faq []

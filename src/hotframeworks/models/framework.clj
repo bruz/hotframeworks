@@ -7,7 +7,10 @@
 
 (defn collapse-scores [name scores]
   (let [combined (find-by-type scores "combined")]
-    (reduce merge {:name name :combined (:score combined) :delta (:delta combined)}
+    (reduce merge {:name name
+                   :url_identifier (:url_identifier combined)
+                   :combined (:score combined)
+                   :delta (:delta combined)}
             (map (fn [type]
                    (let [score (find-by-type scores type)]
                      {(keyword type) (:score score)}))
@@ -20,3 +23,7 @@
           (map (fn [[name scores]]
                  (collapse-scores name scores))
                by-framework))))
+
+(defn latest-score-for-framework [framework type]
+  (let [statistics (db/latest-statistics-for-framework framework)]
+    (:score (find-by-type statistics type))))

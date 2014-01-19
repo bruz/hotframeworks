@@ -41,3 +41,7 @@ td.score, th.score {
 #suggestion {
   margin-left: -15px;
 }
+
+#framework .panel-body {
+  text-size: 24pt;
+}
