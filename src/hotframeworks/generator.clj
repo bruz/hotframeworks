@@ -2,6 +2,7 @@
   (:require [hotframeworks.models.statistic-set :as statistic-set]
             [hotframeworks.views.main :as main]
             [hotframeworks.config :as config]
+            [hotframeworks.models.db :as db]
             [aws.sdk.s3 :as s3]
             [org.satta.glob :refer [glob]])
   (:gen-class))
@@ -11,8 +12,26 @@
    :secret-key (config/lookup "AWS_SECRET_KEY")})
 
 (defn upload-file [file web-path content-type]
-  (prn (str "web-path: " web-path "cred: " cred "file: " file))
+  (prn (str "web-path: " web-path ", cred: " cred ", file: " file))
   (s3/put-object cred "hotframeworks.com" web-path file {:content-type content-type}))
+
+(defn framework-page [framework]
+  (let [identifier (:url_identifier framework)]
+    {:path (str "frameworks/" identifier) :html (main/framework identifier)}))
+
+(defn language-page [language]
+  (let [identifier (:url_identifier language)]
+    {:path (str "languages/" identifier) :html (main/language identifier)}))
+
+(defn pages []
+  (concat [{:path "index.html" :html (main/home)}
+           {:path "faq" :html (main/faq)}]
+          (map #(framework-page %) (db/all-frameworks))
+          (map #(language-page %) (db/all-languages-by-name))))
+
+(defn upload-html []
+  (doseq [page (pages)]
+    (upload-file (:html page) (:path page) "text/html")))
 
 (defn upload-js []
   (doseq [file (glob "resources/public/js/*")]
@@ -24,7 +43,7 @@
 
 (defn upload-content []
   (let [home-html (main/home)]
-    (upload-file home-html "index.html" "text/html")
+    (upload-html)
     (upload-js)
     (upload-css)))
 
