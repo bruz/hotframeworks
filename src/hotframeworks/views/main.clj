@@ -102,7 +102,8 @@
         combined (framework/latest-score-for-framework framework "combined")
         language (db/language-for-id (:language_id framework))
         language-link (str "/languages/" (:url_identifier language))
-        github-link (str "https://github.com/" (:github_owner framework) "/" (:github_repo framework))]
+        github-link (str "https://github.com/" (:github_owner framework) "/" (:github_repo framework))
+        stackoverflow-link (str "http://stackoverflow.com/questions/tagged/" (:stackoverflow_tag framework))]
     (if framework
       (layout/common
        [:div#framework.row
@@ -130,7 +131,10 @@
          (when (:github_repo framework)
            [:p
             "GitHub Link: "
-            [:a {:href github-link} github-link]])]
+            [:a {:href github-link} github-link]]
+           [:p
+            "Stack Overflow Questions: "
+            [:a {:href stackoverflow-link} stackoverflow-link]])]
         [:div.col-md-4
          [:div#graph]]
         [:div.col-md-2
