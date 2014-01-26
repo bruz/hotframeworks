@@ -113,15 +113,15 @@
          [:div.col-md-4
           [:div.panel.panel-primary
            [:div.panel-heading "GitHub"]
-           [:div.panel-body github]]]
+           [:div.panel-body (or github "N/A")]]]
          [:div.col-md-4
           [:div.panel.panel-primary
            [:div.panel-heading "Stack Overflow"]
-           [:div.panel-body stackoverflow]]]
+           [:div.panel-body (or stackoverflow "N/A")]]]
          [:div.col-md-4
           [:div.panel.panel-primary
            [:div.panel-heading "Combined"]
-           [:div.panel-body combined]]]
+           [:div.panel-body (or combined "N/A")]]]
          (when (:description framework)
            [:p "Description: " (:description framework)])
          [:p "Language: "
