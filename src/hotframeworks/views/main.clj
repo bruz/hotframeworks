@@ -174,7 +174,7 @@
       " Since scores are simply calculated as an average of the three measures
       described in the previous question, you can investigate the individual scores
       as compared to other frameworks to see why your framework places where it
-      does. With Github scores for instance, you can look at how many watchers
+      does. With Github scores for instance, you can look at how many stars
       your framework has and compare it to frameworks with higher scores.
       If you still think something is wrong with the score after doing some
       investigation, please "
