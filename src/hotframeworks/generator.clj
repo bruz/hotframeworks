@@ -50,7 +50,7 @@
 (defn -main []
   (do
     (prn "Collecting statistics...")
-    ;;(statistic-set/pull-and-save!)
+    (statistic-set/pull-and-save!)
     (prn "Uploading...")
     (upload-content))
     (prn "Done!"))
