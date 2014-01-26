@@ -40,7 +40,7 @@
         [:span.icon-bar]]]
       [:div#navbar-main.navbar-collapse.collapse
        [:ul.nav.navbar-nav
-        [:li [:a {:href "#top-frameworks"} "Top Frameworks"]]
+        [:li [:a {:href "/#top-frameworks"} "Top Frameworks"]]
         [:li [:a {:href "/#rankings"} "Rankings"]]
         [:li.dropdown
          [:a#download.dropdown-toggle
