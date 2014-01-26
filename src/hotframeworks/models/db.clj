@@ -6,6 +6,7 @@
 
 (defdb db
   {:subprotocol "postgresql"
+   :host (config/lookup "DATABASE_HOST")
    :subname (config/lookup "DATABASE_NAME")
    :user (config/lookup "DATABASE_USER")
    :password (config/lookup "DATABASE_PASSWORD")})
