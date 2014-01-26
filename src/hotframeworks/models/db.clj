@@ -1,13 +1,14 @@
 (ns hotframeworks.models.db
   (:require [clojure.java.jdbc :as sql]
             [korma.db :refer [defdb]]
-            [korma.core :refer :all]))
+            [korma.core :refer :all]
+            [hotframeworks.config :as config]))
 
 (defdb db
   {:subprotocol "postgresql"
-   :subname "hotframeworks"
-   :user "bruz"
-   :password ""})
+   :subname (config/lookup "DATABASE_NAME")
+   :user (config/lookup "DATABASE_USER")
+   :password (config/lookup "DATABASE_PASSWORD")})
 
 (declare frameworks languages statistics statistic-sets)
 
