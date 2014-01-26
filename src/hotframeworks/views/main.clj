@@ -160,7 +160,8 @@
        measure this for frameworks not on GitHub, you'll see 'N/A' for those."]
       [:li
        "Stack Overflow score: Based on the number of questions on Stack Overflow
-       that are tagged with the name of the framework."]]
+       that are tagged with the name of the framework. Some frameworks don't have an
+       unambiguous Stack Overflow tag, and have an 'N/A'."]]
      [:p
       "Since these two measures of popularity are on different scales the final
       scores normalized to a scale of 0-100. The scores are on a log scale since
