@@ -6,8 +6,7 @@
 
 (defdb db
   {:subprotocol "postgresql"
-   :host (config/lookup "DATABASE_HOST")
-   :subname (config/lookup "DATABASE_NAME")
+   :subname (str "//" (config/lookup "DATABASE_HOST") ":5432/" (config/lookup "DATABASE_NAME") "?ssl=true")
    :user (config/lookup "DATABASE_USER")
    :password (config/lookup "DATABASE_PASSWORD")})
 
