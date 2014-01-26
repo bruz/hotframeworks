@@ -12,7 +12,6 @@
    :secret-key (config/lookup "AWS_SECRET_KEY")})
 
 (defn upload-file [file web-path content-type]
-  (prn (str "web-path: " web-path ", cred: " cred ", file: " file))
   (s3/put-object cred "hotframeworks.com" web-path file {:content-type content-type}))
 
 (defn framework-page [framework]
