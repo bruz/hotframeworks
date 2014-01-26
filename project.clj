@@ -32,4 +32,7 @@
   :ring {:handler hotframeworks.handler/war-handler
          :init hotframeworks.handler/init
          :destroy hotframeworks.handler/destroy}
-  :main hotframeworks.generator)
+  :main hotframeworks.generator
+
+  ;; For Heroku
+  :min-lein-version "2.0.0")
