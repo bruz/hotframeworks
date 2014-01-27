@@ -15,7 +15,7 @@
     [:tr
      [:th "Framework"]
      [:th.score "Score"]
-     [:th.score "Weekly Change"]]]
+     [:th.score "Daily Change"]]]
    [:tbody
     (map (fn [framework]
            [:tr
@@ -33,7 +33,7 @@
        [:th.score "Github Score"]
        [:th.score "Stack Overflow Score"]
        [:th.score "Overall Score"]
-       [:th.score "Weekly Change"]]]
+       [:th.score "Daily Change"]]]
      [:tbody
       (map (fn [framework]
              [:tr
