@@ -131,7 +131,8 @@
          (when (:github_repo framework)
            [:p
             "GitHub Link: "
-            [:a {:href github-link} github-link]]
+            [:a {:href github-link} github-link]])
+         (when (:stackoverflow_tag framework)
            [:p
             "Stack Overflow Questions: "
             [:a {:href stackoverflow-link} stackoverflow-link]])]
