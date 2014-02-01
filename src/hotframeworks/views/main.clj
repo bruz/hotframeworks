@@ -14,14 +14,12 @@
    [:thead
     [:tr
      [:th "Framework"]
-     [:th.score "Score"]
-     [:th.score "Daily Change"]]]
+     [:th.score "Score"]]]
    [:tbody
     (map (fn [framework]
            [:tr
             [:td [:a {:href (framework-link framework)} (:name framework)]]
-            [:td.score (:latest_score framework)]
-            [:td.score (:latest_delta framework)]])
+            [:td.score (:latest_score framework)]])
          frameworks)]])
 
 (defn- full-rankings []
@@ -32,16 +30,14 @@
        [:th "Framework"]
        [:th.score "Github Score"]
        [:th.score "Stack Overflow Score"]
-       [:th.score "Overall Score"]
-       [:th.score "Daily Change"]]]
+       [:th.score "Overall Score"]]]
      [:tbody
       (map (fn [framework]
              [:tr
               [:td.score [:a {:href (framework-link framework)}(:name framework)]]
               [:td.score (:github framework)]
               [:td.score (:stackoverflow framework)]
-              [:td.score (:combined framework)]
-              [:td.score (:delta framework)]])
+              [:td.score (:combined framework)]])
            frameworks)]]))
 
 (defn- top-data-json []
