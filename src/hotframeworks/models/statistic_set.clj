@@ -20,7 +20,7 @@
 (defn log-values [stats]
   (map (fn [stat]
          (let [value (:value stat)]
-           (if (nil? value)
+           (if (or (nil? value) (= value 0))
              nil
              (Math/log value)))) stats))
 
