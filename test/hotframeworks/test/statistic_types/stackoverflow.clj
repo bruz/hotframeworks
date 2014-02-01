@@ -10,6 +10,12 @@
   (provided (tags/by-name "noir" {:key "KEY"}) => {:body {:items [{:count 300}]}})
   (provided (config/lookup "STACKOVERFLOW_API_KEY") => "KEY"))
 
+(fact "statistic 0 with valid stackoverflow tag"
+  (def framework {:stackoverflow_tag "uki"})
+  (stackoverflow/stat framework) => 0
+  (provided (tags/by-name "uki" {:key "KEY"}) => {:body {:items []}})
+  (provided (config/lookup "STACKOVERFLOW_API_KEY") => "KEY"))
+
 (fact "statistic is nil without a stackoverflow tag"
   (def framework {})
   (stackoverflow/stat framework) => nil)

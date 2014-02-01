@@ -7,4 +7,8 @@
   (let [tag (:stackoverflow_tag framework)
         options {:key (config/lookup "STACKOVERFLOW_API_KEY")}
         response (tags/by-name tag options)]
-    (get-in response [:body :items 0 :count])))
+    (if tag
+      (or
+       (get-in response [:body :items 0 :count])
+       0)
+      nil)))
