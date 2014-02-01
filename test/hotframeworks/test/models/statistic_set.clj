@@ -57,7 +57,7 @@
                                                     {:framework_id 2 :value 35 :score 35}
                                                     {:framework_id 3 :value 100 :score 100}]}
 
-                          (provided (db/last-statistic-set) => [])))
+                          (provided (db/last-statistic-set) => nil)))
 
 (def today (statistic-set/today))
 

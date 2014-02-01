@@ -8,12 +8,14 @@
                                      :github 95
                                      :stackoverflow 84
                                      :combined 87
-                                     :delta -2}
+                                     :delta -2
+                                     :url_identifier nil}
                                     {:name "Django"
                                      :github 81
                                      :stackoverflow 86
                                      :combined 83
-                                     :delta 1}]
+                                     :delta 1
+                                     :url_identifier nil}]
 
       (provided (db/latest-statistics) => [{:name "Ruby on Rails"
                                             :type "github"
