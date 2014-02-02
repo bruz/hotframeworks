@@ -17,14 +17,15 @@
          {:framework_id (:id framework)
           :value (stat framework type)}) frameworks))
 
-(defn log-or-nil [value]
-  (if (or (nil? value ) (= value 0))
-    nil
+(defn safe-log [value]
+  (if (= value 0)
+    0
     (Math/log value)))
 
-(defn log-or-zero [value]
-  (let [logged (log-or-nil value)]
-    (or logged 0)))
+(defn log-or-nil [value]
+  (if (nil? value)
+    nil
+    (safe-log value)))
 
 (defn log-values [stats]
   (map (fn [stat]
@@ -32,7 +33,7 @@
            (log-or-nil value))) stats))
 
 (defn score-value [value min-value max-value]
-  (let [offset (- (log-or-zero value) min-value)
+  (let [offset (- (safe-log value) min-value)
         range (- max-value min-value)]
     (int (* (/ offset range) 100))))
 
