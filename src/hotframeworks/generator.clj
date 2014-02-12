@@ -46,11 +46,16 @@
     (upload-js)
     (upload-css)))
 
+(defn prune-old-data! []
+  (db/remove-old-statistic-sets))
+
 (defn -main []
   (do
     (prn "Collecting statistics...")
     (statistic-set/pull-and-save!)
     (prn "Uploading...")
-    (upload-content))
-    (prn "Done!"))
+    (upload-content)
+    (prn "Removing old data")
+    (prune-old-data!)
+    (prn "Done!")))
 

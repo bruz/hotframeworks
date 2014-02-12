@@ -102,6 +102,14 @@
           (where {:statistic_set_id [in set-ids]
                   :type "combined"})))
 
+(defn remove-old-statistic-sets []
+  (let [sets (select statistic-sets (order :date :DESC)(offset 25) (limit 100))
+        set-ids (map #(:id %) sets)]
+    (do
+      (delete statistics
+              (where {:statistic_set_id [in set-ids]}))
+      (delete statistic-sets
+              (where {:id [in set-ids]})))))
 
 (defn add-statistic! [map]
   (let [{:keys [type statistic_set_id framework_id score value delta]} map]
