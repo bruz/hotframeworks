@@ -42,15 +42,15 @@
 
 (defn- top-data-json []
   (json/write-str
-   (graphs/most-popular 10 10)))
+   (graphs/most-popular 10 30)))
 
 (defn- language-data-json [language]
   (json/write-str
-   (graphs/for-language language 10)))
+   (graphs/for-language language 30)))
 
 (defn- framework-data-json [framework]
   (json/write-str
-   (graphs/for-framework framework 10)))
+   (graphs/for-framework framework 30)))
 
 (defn home []
   (layout/common
