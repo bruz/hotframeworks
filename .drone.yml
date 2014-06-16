@@ -1,0 +1,7 @@
+image: bradrydzewski/lein
+script:
+  - lein midje
+notify:
+  email:
+    recipients:
+      - email@example.com
