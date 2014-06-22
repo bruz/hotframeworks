@@ -103,7 +103,7 @@
                   :type "combined"})))
 
 (defn remove-old-statistic-sets []
-  (let [sets (select statistic-sets (order :date :DESC)(offset 25) (limit 100))
+  (let [sets (select statistic-sets (order :date :DESC)(offset 20) (limit 100))
         set-ids (map #(:id %) sets)]
     (do
       (delete statistics
