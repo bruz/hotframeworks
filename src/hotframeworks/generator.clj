@@ -47,7 +47,7 @@
     (upload-css)))
 
 (defn prune-old-data! []
-  (db/remove-old-statistic-sets))
+  (db/prune-statistic-sets!))
 
 (defn -main []
   (do

@@ -2,6 +2,8 @@
   (:require [clojure.java.jdbc :as sql]
             [korma.db :refer [defdb]]
             [korma.core :refer :all]
+            [clj-time.coerce :as time-coerce]
+            [clj-time.core :as time-core]
             [hotframeworks.config :as config]))
 
 (defdb db
@@ -102,14 +104,40 @@
           (where {:statistic_set_id [in set-ids]
                   :type "combined"})))
 
-(defn remove-old-statistic-sets []
-  (let [sets (select statistic-sets (order :date :DESC)(offset 20) (limit 100))
-        set-ids (map #(:id %) sets)]
-    (do
-      (delete statistics
-              (where {:statistic_set_id [in set-ids]}))
-      (delete statistic-sets
-              (where {:id [in set-ids]})))))
+(def day-intervals (concat (repeat 8 7) (repeat 5 30) (repeat 11 60)))
+
+(defn delete-statistic-set! [{:keys [id]}]
+  (delete statistics
+          (where {:statistic_set_id id}))
+  (delete statistic-sets
+          (where {:id id})))
+
+(def desired-intervals
+  (concat (repeat 8 7) (repeat 5 28) (repeat 11 56)))
+
+(defn days-between [before after]
+  (time-core/in-days
+    (time-core/interval (time-coerce/from-date before) (time-coerce/from-date after))))
+
+(defn first-unneeded-set [sets]
+  (let [pairs (partition 2 1 sets)]
+    (->> (map vector pairs desired-intervals)
+         (filter (fn [[pair desired-interval]]
+              (let [first-date (:date (first pair))
+                    last-date (:date (last pair))
+                    interval (days-between last-date first-date)]
+                (< interval desired-interval))))
+        ffirst
+        second)))
+
+(defn prune-statistic-sets! []
+  (loop [sets (select statistic-sets (order :date :DESC))]
+    (let [unneeded-set (first-unneeded-set sets)
+          remaining-sets (remove #(= % unneeded-set) sets)]
+      (if unneeded-set
+        (do
+          (delete-statistic-set! unneeded-set)
+          (recur remaining-sets))))))
 
 (defn add-statistic! [map]
   (let [{:keys [type statistic_set_id framework_id score value delta]} map]
