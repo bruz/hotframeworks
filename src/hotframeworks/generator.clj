@@ -1,15 +1,15 @@
 (ns hotframeworks.generator
   (:require [hotframeworks.models.statistic-set :as statistic-set]
             [hotframeworks.views.main :as main]
-            [hotframeworks.config :as config]
             [hotframeworks.models.db :as db]
             [aws.sdk.s3 :as s3]
-            [org.satta.glob :refer [glob]])
+            [org.satta.glob :refer [glob]]
+            [environ.core :refer [env]])
   (:gen-class))
 
 (def cred
-  {:access-key (config/lookup "AWS_ACCESS_KEY")
-   :secret-key (config/lookup "AWS_SECRET_KEY")})
+  {:access-key (env :aws-access-key)
+   :secret-key (env :aws-secret-key)})
 
 (defn upload-file [file web-path content-type]
   (s3/put-object cred "hotframeworks.com" web-path file {:content-type content-type}))

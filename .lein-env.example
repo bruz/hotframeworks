@@ -1,0 +1,8 @@
+{:aws-access-key "YOUR AWS ACCESS KEY"
+ :aws-secret-key "YOUR AWS SECRET KEY"
+ :github-access-token "YOUR GITHUB ACCESS TOKEN"
+ :stackoverflow-api-key "YOUR STACK OVERFLOW API KEY"
+ :database-host "localhost"
+ :database-name "hotframeworks"
+ :database-user "YOUR USERNAME"
+ :database-password ""}

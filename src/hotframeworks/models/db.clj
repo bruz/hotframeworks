@@ -4,13 +4,13 @@
             [korma.core :refer :all]
             [clj-time.coerce :as time-coerce]
             [clj-time.core :as time-core]
-            [hotframeworks.config :as config]))
+            [environ.core :refer [env]]))
 
 (defdb db
   {:subprotocol "postgresql"
-   :subname (str "//" (config/lookup "DATABASE_HOST") ":5432/" (config/lookup "DATABASE_NAME"))
-   :user (config/lookup "DATABASE_USER")
-   :password (config/lookup "DATABASE_PASSWORD")
+   :subname (str "//" (env :database-host) ":5432/" (env :database-name))
+   :user (env :database-user)
+   :password (env :database-password)
    :sslmode "require"})
 
 (declare frameworks languages statistics statistic-sets)

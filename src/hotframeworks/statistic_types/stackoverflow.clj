@@ -1,11 +1,11 @@
 (ns hotframeworks.statistic-types.stackoverflow
-  (:require [hotframeworks.config :as config]
+  (:require [environ.core :refer [env]]
             [stacktraces.tags :as tags]))
 
 (defn stat
   [framework]
   (let [tag (:stackoverflow_tag framework)
-        options {:key (config/lookup "STACKOVERFLOW_API_KEY")}
+        options {:key (env :stackoverflow-api-key)}
         response (tags/by-name tag options)]
     (if tag
       (or
