@@ -1,19 +1,52 @@
-# hotframeworks
+# HotFrameworks
 
-FIXME
+Pulls statistics and updates [HotFrameworks](http://hotframeworks.com/) daily. It uses an unusual approach with a Clojure web app that doesn't serve traffic directly, but instead is queried by a scheduled job that uploads the HTML and assets to an S3 bucket.
 
-## Prerequisites
+## Development
 
-You will need [Leiningen][1] 1.7.0 or above installed.
+Prerequisites:
 
-[1]: https://github.com/technomancy/leiningen
+* [Leiningen](http://leiningen.org/)
+* [PostgreSQL](http://www.postgresql.org/)
 
-## Running
+Installing:
 
-To start a web server for the application, run:
+```bash
+git clone git@github.com:bruz/hotframeworks.git
+cd hotframeworks
 
-    lein ring server
+# Assuming no database password
+createdb hotframeworks
+psql hotframeworks < database/schema.sql
 
-## License
+cp .lein-env.example .lein-env
+```
 
-Copyright © 2013 FIXME
+Modify the configuration in .lein-env. AWS credentials are only necessary for publishing to S3.
+
+Loading schema.sql only provides the database schema. In order to import statistics for some actual frameworks, adding some records to the `languages` and `frameworks` tables is required.
+
+Import statistics from GitHub and Stack Overflow:
+
+```bash
+lein repl
+```
+
+In the REPL:
+
+```clojure
+(require '[hotframeworks.models.statistic-set :as stats])
+(stats/pull-and-save!)
+```
+
+Run the web app to test it locally:
+
+```bash
+lein ring server
+```
+
+## Pull statistics and publish to S3
+
+```bash
+lein run
+```
