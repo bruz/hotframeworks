@@ -113,7 +113,7 @@
           (where {:id id})))
 
 (def desired-intervals
-  (concat (repeat 8 7) (repeat 5 28) (repeat 11 56)))
+  (concat [1] (repeat 8 7) (repeat 5 28) (repeat 11 56)))
 
 (defn days-between [before after]
   (time-core/in-days
@@ -128,7 +128,7 @@
                     interval (days-between last-date first-date)]
                 (< interval desired-interval))))
         ffirst
-        second)))
+        first)))
 
 (defn prune-statistic-sets! []
   (loop [sets (select statistic-sets (order :date :DESC))]
