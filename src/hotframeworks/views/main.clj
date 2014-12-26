@@ -168,7 +168,7 @@
       just have a handful."]
      [:h3 " Why does my favorite framework have such a low score? "]
      [:p
-      " Since scores are simply calculated as an average of the three measures
+      " Since scores are simply calculated as an average of the two measures
       described in the previous question, you can investigate the individual scores
       as compared to other frameworks to see why your framework places where it
       does. With Github scores for instance, you can look at how many stars
