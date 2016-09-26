@@ -104,8 +104,6 @@
           (where {:statistic_set_id [in set-ids]
                   :type "combined"})))
 
-(def day-intervals (concat (repeat 8 7) (repeat 5 30) (repeat 11 60)))
-
 (defn delete-statistic-set! [{:keys [id]}]
   (delete statistics
           (where {:statistic_set_id id}))
@@ -113,7 +111,7 @@
           (where {:id id})))
 
 (def desired-intervals
-  (concat [1] (repeat 8 7) (repeat 5 28) (repeat 11 56)))
+  (concat [1] (repeat 8 7) (repeat 3 28) (repeat 8 56) (repeat 2 112)))
 
 (defn days-between [before after]
   (time-core/in-days
