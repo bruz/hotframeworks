@@ -19,7 +19,6 @@
      {:content "width=device-width, initial-scale=1.0",
       :name "viewport"}]
     (include-css "/css/bootstrap.min.css")
-    (include-css "/css/rickshaw.min.css")
     (include-css "/css/hotframeworks.css")
     "<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->"
     "<!--[if lt IE 9]>"
@@ -50,11 +49,11 @@
          (language-menu)]
         [:li [:a {:href "/faq"} "FAQ"]]]]]]
     [:div {:class "container"} content]
-    [:script {:src "//code.jquery.com/jquery.js"}]
-    [:script {:src "/js/bootstrap.min.js"}]
-    [:script {:src "/js/jquery.scrollTo.js"}]
-    [:script {:src "/js/d3.v3.min.js"}]
-    [:script {:src "/js/rickshaw.min.js"}]
+    [:script {:src "//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"}]
+    [:script {:src "//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"}]
+    [:script {:src "//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"}]
+    [:script {:src "//cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.2/moment.min.js"}]
+    [:script {:src "//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"}]
     [:script {:src "/js/app.js"}]
     (format "<script>
             %s

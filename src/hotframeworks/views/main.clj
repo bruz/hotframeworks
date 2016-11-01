@@ -61,11 +61,9 @@
        [:br]
        [:small "Measuring web framework popularity so you can find interesting frameworks to check out"]]]]
     [:div.row
-     [:div.col-md-9
+     [:div.col-md-12
       [:div#graph-container
-       [:div#graph]]]
-     [:div.col-md-3
-      [:div#legend]]]
+       [:canvas#graph]]]]
     [:div#rankings.row
      [:div.col-md-12.page-header
       [:h1 "Rankings"]
@@ -83,7 +81,8 @@
         [:div.col-md-4
          (mini-ranking (db/frameworks-for-language language))]
         [:div.col-md-6
-         [:div#graph]]
+         [:div#graph-container
+          [:canvas#graph]]]
         [:div.col-md-2
          [:div#legend]]]
        (format "var data = %s;
@@ -133,7 +132,8 @@
             "Stack Overflow Questions: "
             [:a {:href stackoverflow-link} stackoverflow-link]])]
         [:div.col-md-4
-         [:div#graph]]
+         [:div#graph-container
+          [:canvas#graph]]]
         [:div.col-md-2
          [:div#legend]]]
        (format "var data = %s;

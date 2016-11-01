@@ -1,71 +1,43 @@
+COLORS = ['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a'];
+
 var Hotframeworks = {
 
   graph: function(data) {
-    var palette = new Rickshaw.Color.Palette();
-
-    var seriesMaxes = [],
-        seriesMins = [];
-    $.each(data, function(index, framework) {
-      framework.color = palette.color();
-      seriesMaxes.push( Math.max.apply(Math, framework.data) );
-      seriesMins.push( Math.min.apply(Math, framework.data) );
-    });
-
-    var max = Math.max.apply(Math, seriesMaxes);
-    var min = Math.min.apply(Math, seriesMins);
-
-    var graph = new Rickshaw.Graph( {
-      element: document.querySelector("#graph"),
-      renderer: 'line',
-      stroke: true,
-      series: data,
-      height: 500,
-      min: min,
-      max: max
-    });
-
-    var legend = new Rickshaw.Graph.Legend({
-      graph: graph,
-      element: document.querySelector("#legend"),
-      naturalOrder: true
-    });
-
-    var shelving = new Rickshaw.Graph.Behavior.Series.Toggle({
-      graph: graph,
-      legend: legend
-    });
-
-    var hoverDetail = new Rickshaw.Graph.HoverDetail( {
-      graph: graph
-    } );
-
-    graph.render();
-
-    var time = new Rickshaw.Fixtures.Time();
-    var timeUnit = time.unit('week');
-    var xAxis = new Rickshaw.Graph.Axis.Time( {
-      graph: graph,
-      timeUnit: timeUnit,
-      timeFixture: new Rickshaw.Fixtures.Time.Local()
-    });
-
-    /*
-    var xAxis = new Rickshaw.Graph.Axis.X({
-      graph: graph,
-      tickFormat: function(value) {
-        var date = new Date(value * 1000);
-        return date.getMonth() + '/' + date.getDate() + '/' + date.getYear();
+    var ctx = document.getElementById('graph')
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        datasets: data.map(function(framework, index) {
+          return {
+            label: framework.name,
+            data: framework.data.map(function(point) {
+              return {
+                x: new Date(point.x * 1000),
+                y: point.y
+              }
+            }),
+            borderColor: COLORS[index],
+            backgroundColor: COLORS[index],
+            fill: false
+          }
+        })
+      },
+      options: {
+        maintainAspectRatio: false,
+        scales: {
+          xAxes: [{
+            type: 'time',
+            position: 'bottom'
+          }]
+        },
+        tooltips: {
+          callbacks: {
+            title: function(tooltipItem) {
+              return moment(tooltipItem[0].xLabel).format('LL');
+            }
+          }
+        }
       }
     });
-    */
-
-    xAxis.render();
-
-    var yAxis = new Rickshaw.Graph.Axis.Y({
-      graph: graph
-    });
-
-    yAxis.render();
   }
-
 };
