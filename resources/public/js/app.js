@@ -41,3 +41,16 @@ var Hotframeworks = {
     });
   }
 };
+
+$('.scroll-link').on('click', function(event) {
+  var targetSelector = $(this).attr('href').replace(/.*#/, '#');
+  var $target = $(targetSelector);
+
+  if ($target.length > 0) {
+    event.preventDefault();
+
+    $('html, body').animate({
+      scrollTop: $target.offset().top - 50
+    }, 500);
+  };
+});

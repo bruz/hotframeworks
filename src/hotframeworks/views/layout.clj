@@ -39,8 +39,8 @@
         [:span.icon-bar]]]
       [:div#navbar-main.navbar-collapse.collapse
        [:ul.nav.navbar-nav
-        [:li [:a {:href "/#top-frameworks"} "Top Frameworks"]]
-        [:li [:a {:href "/#rankings"} "Rankings"]]
+        [:li [:a.scroll-link {:href "/#top-frameworks",} "Top Frameworks"]]
+        [:li [:a.scroll-link {:href "/#rankings"} "Rankings"]]
         [:li.dropdown
          [:a#download.dropdown-toggle
           {:href "#", :data-toggle "dropdown"}
@@ -51,7 +51,6 @@
     [:div {:class "container"} content]
     [:script {:src "//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"}]
     [:script {:src "//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"}]
-    [:script {:src "//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"}]
     [:script {:src "//cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.2/moment.min.js"}]
     [:script {:src "//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"}]
     [:script {:src "/js/app.js"}]
