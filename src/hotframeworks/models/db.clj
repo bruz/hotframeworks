@@ -42,10 +42,11 @@
   (reverse
    (select statistics
            (with statistic-sets)
-           (fields :statistic_sets.date :score)
-           (where {:type "combined"
-                   :framework_id id})
+           (fields :statistic_sets.date)
+           (aggregate (avg :score) :score)
+           (where {:framework_id id})
            (order :statistic_sets.date :DESC)
+           (group :statistic_sets.date)
            (limit max-timepoints))))
 
 (defn framework-for-url-identifier [identifier]

@@ -1,20 +1,24 @@
 (ns hotframeworks.models.framework
-  [:require [hotframeworks.models.db :as db]])
+  [:require [hotframeworks.models.db :as db]
+            [hotframeworks.utils :as utils]])
 
 (defn find-by-type [scores type]
   (first
    (filter #(= type (:type %)) scores)))
 
+(defn average-metric [scores metric]
+  (let [values (map metric scores)]
+    (utils/average values)))
+
 (defn collapse-scores [name scores]
-  (let [combined (find-by-type scores "combined")]
-    (reduce merge {:name name
-                   :url_identifier (:url_identifier combined)
-                   :combined (:score combined)
-                   :delta (:delta combined)}
-            (map (fn [type]
-                   (let [score (find-by-type scores type)]
-                     {(keyword type) (:score score)}))
-                 ["github" "stackoverflow"]))))
+  (let [github (find-by-type scores "github")
+        stackoverflow (find-by-type scores "stackoverflow")]
+    {:name name
+     :url_identifier (or (:url_identifier github) (:url_identifier stackoverflow))
+     :combined (average-metric scores :score)
+     :delta (average-metric scores :delta)
+     :github (:score github)
+     :stackoverflow (:score stackoverflow)}))
 
 (defn latest-scores []
   (let [statistics (db/latest-statistics)

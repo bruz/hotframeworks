@@ -7,14 +7,14 @@
       (framework/latest-scores) => [{:name "Ruby on Rails"
                                      :github 95
                                      :stackoverflow 84
-                                     :combined 87
-                                     :delta -2
+                                     :combined 89
+                                     :delta 3
                                      :url_identifier nil}
                                     {:name "Django"
                                      :github 81
                                      :stackoverflow 86
                                      :combined 83
-                                     :delta 1
+                                     :delta -2
                                      :url_identifier nil}]
 
       (provided (db/latest-statistics) => [{:name "Ruby on Rails"
@@ -25,10 +25,6 @@
                                             :type "stackoverflow"
                                             :score 84
                                             :delta 2}
-                                           {:name "Ruby on Rails"
-                                            :type "combined"
-                                            :score 87
-                                            :delta -2}
                                            {:name "Django"
                                             :type "github"
                                             :score 81
@@ -36,8 +32,4 @@
                                            {:name "Django"
                                             :type "stackoverflow"
                                             :score 86
-                                            :delta -2}
-                                           {:name "Django"
-                                            :type "combined"
-                                            :score 83
-                                            :delta 1}]))
+                                            :delta -2}]))

@@ -1,7 +1,8 @@
 (ns hotframeworks.models.statistic-set
   (:require [hotframeworks.models.db :as db]
             [hotframeworks.statistic-types.github :as github]
-            [hotframeworks.statistic-types.stackoverflow :as stackoverflow]))
+            [hotframeworks.statistic-types.stackoverflow :as stackoverflow]
+            [hotframeworks.utils :as utils]))
 
 (def statistic-types [:github :stackoverflow])
 
@@ -88,12 +89,8 @@
        stats-by-type))
 
 (defn average-score [framework stats-by-type]
-  (let [scores (remove nil? (framework-scores framework stats-by-type))
-        sum (reduce + scores)
-        number (count scores)]
-    (if (= 0 number)
-      0
-      (int (/ sum number)))))
+  (let [scores (remove nil? (framework-scores framework stats-by-type))]
+    (utils/average scores)))
 
 (defn combined-scores [stats-by-type]
   (let [frameworks (db/all-frameworks)]
@@ -126,7 +123,7 @@
         id (set :id)]
     (doseq [[type stats] (:stats data)]
       (doseq [stat stats]
-        (when (:value stat)
+        (when (and (:value stat) (not= type :combined))
           (db/add-statistic!
             (assoc stat :statistic_set_id id :type (name type))))))
     id))
