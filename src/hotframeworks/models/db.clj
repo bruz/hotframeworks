@@ -90,8 +90,11 @@
    (latest-statistic-sets 1)))
 
 (defn add-statistic-set! [date]
-  (insert statistic-sets
-          (values {:date date})))
+  (do
+    (insert statistic-sets (values {:date date}))
+    (first
+      (select statistic-sets
+        (where {:date date})))))
 
 (defn statistics-for-sets [set-ids]
   (select statistics
