@@ -9,6 +9,7 @@
 (defn stat [framework type]
   (do
     (prn (str "Pulling " (name type) " stat for " (framework :name) "..."))
+    (Thread/sleep 1000)
     (cond
       (= type :github ) (github/stat framework)
       (= type :stackoverflow ) (stackoverflow/stat framework))))
