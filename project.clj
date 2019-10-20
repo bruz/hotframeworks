@@ -18,7 +18,7 @@
                  [clj-aws-s3 "0.3.7"]
                  [clj-glob "1.0.0"]
                  [environ "1.0.0"]]
-  :plugins [[lein-ring "0.8.5"]]
+  :plugins [[lein-ring "0.12.5"]]
   :profiles {:dev {:dependencies [[midje "1.5.1"]
                                   [lein-localrepo "0.3"]
                                   [lein-marginalia "0.7.1"]
