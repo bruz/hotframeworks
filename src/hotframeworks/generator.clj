@@ -12,7 +12,7 @@
    :secret-key (env :aws-secret-key)})
 
 (defn upload-file [file web-path content-type]
-  (s3/put-object cred "hotframeworks.com" web-path file {:content-type content-type}))
+  (s3/put-object cred "hotframeworks.bruzilla.com" web-path file {:content-type content-type}))
 
 (defn framework-page [framework]
   (let [identifier (:url_identifier framework)]

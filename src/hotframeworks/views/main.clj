@@ -188,7 +188,7 @@
       sweet new web application with [insert name of framework here]\", then it'd
       probably be considered a web framework. Note that frameworks don't have to
       be \"full-stack\", they can be client-side only (like "
-      [:a {:href "http://hotframeworks.com/frameworks/gwt"} "GWT"]
+      [:a {:href "http://hotframeworks.bruzilla.com/frameworks/gwt"} "GWT"]
       " ) or server-side only and qualify. Hotframeworks doesn't include JavaScript
       libraries like jQuery and MooTools though since these are typically
       used to enhance web applications that are built using another framework.

@@ -1,6 +1,6 @@
 (defproject hotframeworks "0.1.0-SNAPSHOT"
   :description "FIXME: write this!"
-  :url "http://hotframeworks.com"
+  :url "http://hotframeworks.bruzilla.com"
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [compojure "1.1.5"]
                  [hiccup "1.0.3"]
