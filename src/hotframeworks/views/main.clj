@@ -34,7 +34,7 @@
      [:tbody
       (map (fn [framework]
              [:tr
-              [:td.score [:a {:href (framework-link framework)}(:name framework)]]
+              [:td.score [:a {:href (framework-link framework)} (:name framework)]]
               [:td.score (:github framework)]
               [:td.score (:stackoverflow framework)]
               [:td.score (:combined framework)]])
@@ -191,18 +191,5 @@
       [:a {:href "http://hotframeworks.bruzilla.com/frameworks/gwt"} "GWT"]
       " ) or server-side only and qualify. Hotframeworks doesn't include JavaScript
       libraries like jQuery and MooTools though since these are typically
-      used to enhance web applications that are built using another framework.
-      Feel free to "
-      [:a {:href "#suggestion"}
-       "suggest we add a framework."]]]
-    [:div#suggestion
-     [:div#wufoo-z1oha8090rgmrix
-      "\nFill out my "
-      [:a
-       {:href "https://bruzilla.wufoo.com/forms/z1oha8090rgmrix"}
-       "online form"]
-      ".\n"]
-     [:script
-      {:type "text/javascript"}
-      "var z1oha8090rgmrix;(function(d, t) {\nvar s = d.createElement(t), options = {\n'userName':'bruzilla', \n'formHash':'z1oha8090rgmrix', \n'autoResize':true,\n'height':'437',\n'async':true,\n'host':'wufoo.com',\n'header':'show', \n'ssl':true};\ns.src = ('https:' == d.location.protocol ? 'https://' : 'http://') + 'wufoo.com/scripts/embed/form.js';\ns.onload = s.onreadystatechange = function() {\nvar rs = this.readyState; if (rs) if (rs != 'complete') if (rs != 'loaded') return;\ntry { z1oha8090rgmrix = new WufooForm();z1oha8090rgmrix.initialize(options);z1oha8090rgmrix.display(); } catch (e) {}};\nvar scr = d.getElementsByTagName(t)[0], par = scr.parentNode; par.insertBefore(s, scr);\n})(document, 'script');"]]]
+      used to enhance web applications that are built using another framework."]]]
    ""))
