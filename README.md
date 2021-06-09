@@ -1,6 +1,6 @@
 # HotFrameworks
 
-Pulls statistics and updates [HotFrameworks](http://hotframeworks.bruzilla.com/) daily. It uses an unusual approach with a Clojure web app that doesn't serve traffic directly, but instead is queried by a scheduled job that uploads the HTML and assets to an S3 bucket.
+Pulls statistics about web frameworks daily. It uses an unusual approach with a Clojure web app that doesn't serve traffic directly, but instead is queried by a scheduled job that uploads the HTML and assets to an S3 bucket.
 
 ## Development
 
